@@ -1,0 +1,25 @@
+# ProductSpec Index
+# Quick access to all ProductSpecs
+
+version: "1.0"
+last_updated: "2025-01-01T00:00:00Z"
+
+specs: []
+  # Example:
+  # - id: PRD-1.0.0-auth
+  #   title: "User Authentication"
+  #   status: approved
+  #   path: ./PRD-1.0.0-auth.yaml
+  #   checksum: sha256:...
+  #   summary: "User login, registration, session management"
+  #   affected_repos: [frontend, backend]
+  #   apis_count: 3        # Number of API endpoints defined
+  #   models_count: 2      # Number of data models defined
+
+stats:
+  total: 0
+  by_status:
+    draft: 0
+    review: 0
+    approved: 0
+    deprecated: 0

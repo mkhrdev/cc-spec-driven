@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Edit(*)",
+      "Write(*)",
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "Task(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "NotebookEdit(*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": {
+          "tool": "Skill",
+          "args": {
+            "skill": "product-build"
+          }
+        },
+        "command": "echo '\n══════════════════════════════════════\nAUTO-CHAIN: Now execute /product-review\n══════════════════════════════════════\n'"
+      },
+      {
+        "matcher": {
+          "tool": "Skill",
+          "args": {
+            "skill": "test-build"
+          }
+        },
+        "command": "echo '\n══════════════════════════════════════\nAUTO-CHAIN: Now execute /test-review\n══════════════════════════════════════\n'"
+      },
+      {
+        "matcher": {
+          "tool": "Skill",
+          "args": {
+            "skill": "snapshot-build"
+          }
+        },
+        "command": "echo '\n══════════════════════════════════════\nAUTO-CHAIN: Now execute /snapshot-review\n══════════════════════════════════════\n'"
+      }
+    ]
+  }
+}

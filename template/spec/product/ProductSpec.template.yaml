@@ -1,0 +1,156 @@
+# ProductSpec Template
+# File naming:
+#   Simple:  PRD-1.0.0.yaml
+#   Complex: PRD-1.0.0-{feature}.yaml
+
+# ============================================================
+# META (Required at top for context-efficient loading)
+# ============================================================
+_meta:
+  id: "PRD-{VERSION}"  # or PRD-{VERSION}-{feature}
+  title: "{Feature Title}"
+  status: draft  # draft | review | approved | deprecated
+  version: "{VERSION}"  # Always 3 digits: MAJOR.MINOR.PATCH
+  summary: "{2-3 sentence summary for quick scanning}"
+  refs:
+    product: null  # ProductSpec has no parent
+    task: []       # Populated after TaskSpec generation
+  checksum: null   # Auto-generated
+
+# ============================================================
+# METADATA
+# ============================================================
+metadata:
+  created_at: "{timestamp}"
+  updated_at: "{timestamp}"
+  author: "{author}"
+
+# ============================================================
+# OVERVIEW
+# ============================================================
+overview:
+  description: |
+    {Describe what this feature does and why it's needed}
+
+  goals:
+    - "{Goal 1}"
+    - "{Goal 2}"
+
+  non_goals:
+    - "{Explicitly out of scope}"
+
+  target_users:
+    - role: "{User Role}"
+      needs: "{What they need}"
+
+  background: |
+    {Business context, why this feature is being built}
+
+# ============================================================
+# REQUIREMENTS
+# ============================================================
+requirements:
+  functional:
+    - id: FR-001
+      title: "{Requirement Title}"
+      description: |
+        {Detailed description}
+      priority: P1  # P0 | P1 | P2 | P3
+
+      acceptance_criteria:
+        - criterion: "{Specific, measurable, testable criterion}"
+          test_method: automated  # manual | automated | both
+
+      affected_repos:
+        - repo: frontend
+          components: []
+        - repo: backend
+          components: []
+
+      dependencies:
+        internal: []  # Other FR/NFR IDs in this spec
+        external: []  # Other PRD IDs
+
+      user_story: |
+        As a {role}, I want to {action}, so that {benefit}.
+
+      notes: |
+        {Implementation hints, edge cases}
+
+  non_functional:
+    - id: NFR-001
+      category: performance  # performance | security | scalability | usability | reliability
+      title: "{NFR Title}"
+      requirement: |
+        {Description}
+      metrics:
+        - metric: "{What to measure}"
+          target: "{Target value}"
+      affected_repos: []
+      priority: P1
+
+# ============================================================
+# CONSTRAINTS
+# ============================================================
+constraints:
+  technical: []
+  business: []
+
+# ============================================================
+# DEPENDENCIES
+# ============================================================
+dependencies:
+  external_services: []
+  product_specs: []
+
+# ============================================================
+# AFFECTED REPOS SUMMARY
+# ============================================================
+affected_repos:
+  frontend:
+    impact: none  # high | medium | low | none
+    summary: ""
+  backend:
+    impact: none
+    summary: ""
+  shared:
+    impact: none
+    summary: ""
+
+# ============================================================
+# RISKS
+# ============================================================
+risks: []
+
+# ============================================================
+# GLOSSARY REFERENCES
+# ============================================================
+glossary_refs: []
+
+# ============================================================
+# CHANGELOG (Required for auditability)
+# ============================================================
+# Every iteration MUST be recorded, including:
+# - iteration: counter for tracking draft iterations
+# - trigger: what initiated the change (human_feedback, review_finding, test_failure)
+# - sections_modified: which parts were changed
+#
+# See docs/revision-handling.md#draft-auditability for details.
+# ============================================================
+changelog:
+  - version: "{VERSION}"
+    date: "{date}"
+    iteration: 1
+    status: draft
+    changes:
+      - type: created
+        description: "Initial ProductSpec"
+        trigger:
+          type: human_feedback
+          content: "{Initial requirement description from human}"
+        sections_modified: ["all"]
+
+# ============================================================
+# REVIEW NOTES (populated by /product-review)
+# ============================================================
+review_notes: []

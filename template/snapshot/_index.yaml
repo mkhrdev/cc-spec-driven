@@ -1,0 +1,33 @@
+# Business Snapshot Index
+# Top-level overview - ALWAYS load this file first
+#
+# Loading rules:
+#   1. Load _index.yaml (this file) - get one_liner + module list
+#   2. Load modules/{id}.yaml - only when working on that module
+#   3. Load changelog.yaml - only when need evolution history
+
+_meta:
+  version: 1
+  last_updated: "{timestamp}"
+  source_spec:                            # Spec that triggered last update
+    id: null                              # PRD-x.x.x-xxx
+    checksum: null                        # sha256:...
+  completeness: partial                   # partial | substantial | comprehensive
+
+# One-liner (also in project.yaml)
+one_liner: "{What this product does in one sentence}"
+
+# Module overview - enough context for routing decisions
+modules:
+  - id: "{module_id}"
+    name: "{Module Name}"
+    summary: "{One sentence: what this module does}"
+    feature_count: 0
+    status: active                        # active | planned | deprecated
+
+# Cross-module relationships (load when need dependency context)
+relationships:
+  - from: "{module_id}"
+    to: "{module_id}"
+    type: depends_on                      # depends_on | provides_data | triggers
+    description: "{how they relate}"

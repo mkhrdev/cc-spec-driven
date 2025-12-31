@@ -1,0 +1,204 @@
+# Unified Glossary - Multi-language Terms Dictionary
+# All terms in one file for easy manual maintenance
+#
+# Structure per term:
+#   {term_id}:
+#     en: { t: "term", d: "definition" }
+#     zh: { t: "术语", d: "定义" }
+#     ja: { t: "用語", d: "定義" }
+#     ctx: "context/usage notes"
+#     refs: [related_term_ids]
+#
+# Field key customization (editable):
+#   t = term (术语/用語)
+#   d = definition (定义/定義)
+#   ctx = context
+#   refs = related terms
+
+version: "1.0"
+primary_language: en
+
+# ============================================================
+# TERMS
+# ============================================================
+terms:
+
+  # --- Authentication & Security ---
+
+  user_authentication:
+    en:
+      t: "User Authentication"
+      d: "The process of verifying a user's identity through credentials."
+    zh:
+      t: "用户认证"
+      d: "通过凭证验证用户身份的过程。"
+    ja:
+      t: "ユーザー認証"
+      d: "資格情報を通じてユーザーの身元を確認するプロセス。"
+    ctx: "Login, registration, session management, access control"
+    refs: [authorization, session]
+
+  authorization:
+    en:
+      t: "Authorization"
+      d: "The process of determining what actions an authenticated user is permitted to perform."
+    zh:
+      t: "授权"
+      d: "确定已认证用户可执行哪些操作的过程。"
+    ja:
+      t: "認可"
+      d: "認証されたユーザーが実行できるアクションを決定するプロセス。"
+    ctx: "Permissions, roles, access control"
+    refs: [user_authentication, role]
+
+  session:
+    en:
+      t: "Session"
+      d: "A temporary interaction period between a user and the system, tracked via tokens."
+    zh:
+      t: "会话"
+      d: "用户与系统之间的临时交互期间，通过令牌进行跟踪。"
+    ja:
+      t: "セッション"
+      d: "トークンを通じて追跡される、ユーザーとシステム間の一時的な対話期間。"
+    ctx: "Login state, token management, timeout"
+    refs: [user_authentication, access_token]
+
+  access_token:
+    en:
+      t: "Access Token"
+      d: "A credential that grants access to protected resources, typically a JSON Web Token."
+    zh:
+      t: "访问令牌"
+      d: "授予对受保护资源访问权限的凭证，通常是JSON Web Token。"
+    ja:
+      t: "アクセストークン"
+      d: "保護されたリソースへのアクセスを許可する資格情報、通常はJSON Web Token。"
+    ctx: "API authentication, bearer tokens"
+    refs: [session, refresh_token]
+
+  refresh_token:
+    en:
+      t: "Refresh Token"
+      d: "A long-lived token used to obtain new access tokens without re-authentication."
+    zh:
+      t: "刷新令牌"
+      d: "用于在不重新认证的情况下获取新访问令牌的长期令牌。"
+    ja:
+      t: "リフレッシュトークン"
+      d: "再認証なしで新しいアクセストークンを取得するために使用される長期トークン。"
+    ctx: "Token renewal, session extension"
+    refs: [access_token]
+
+  # --- User Management ---
+
+  user:
+    en:
+      t: "User"
+      d: "An individual who has registered an account in the system."
+    zh:
+      t: "用户"
+      d: "在系统中注册了账户的个人。"
+    ja:
+      t: "ユーザー"
+      d: "システムにアカウントを登録した個人。"
+    ctx: "Account management, profiles"
+    refs: [user_authentication, role]
+
+  role:
+    en:
+      t: "Role"
+      d: "A named set of permissions assigned to users."
+    zh:
+      t: "角色"
+      d: "分配给用户的一组命名权限。"
+    ja:
+      t: "ロール"
+      d: "ユーザーに割り当てられた名前付きの権限セット。"
+    ctx: "Access control, admin, user types"
+    refs: [authorization, permission]
+
+  permission:
+    en:
+      t: "Permission"
+      d: "A specific action that a user or role is allowed to perform."
+    zh:
+      t: "权限"
+      d: "用户或角色被允许执行的特定操作。"
+    ja:
+      t: "権限"
+      d: "ユーザーまたはロールが実行を許可されている特定のアクション。"
+    ctx: "Access control, CRUD operations"
+    refs: [role, authorization]
+
+  # --- Technical Terms ---
+
+  api_endpoint:
+    en:
+      t: "API Endpoint"
+      d: "A specific URL path that accepts requests and returns responses."
+    zh:
+      t: "API端点"
+      d: "接受请求并返回响应的特定URL路径。"
+    ja:
+      t: "APIエンドポイント"
+      d: "リクエストを受け入れ、レスポンスを返す特定のURLパス。"
+    ctx: "REST API, backend services"
+    refs: []
+
+  migration:
+    en:
+      t: "Database Migration"
+      d: "A version-controlled change to the database schema."
+    zh:
+      t: "数据库迁移"
+      d: "对数据库架构的版本控制变更。"
+    ja:
+      t: "データベースマイグレーション"
+      d: "データベーススキーマへのバージョン管理された変更。"
+    ctx: "Schema updates, deployments"
+    refs: []
+
+# ============================================================
+# ACRONYMS
+# ============================================================
+acronyms:
+  JWT:
+    expansion: "JSON Web Token"
+    term_ref: access_token
+
+  API:
+    expansion: "Application Programming Interface"
+
+  CRUD:
+    expansion: "Create, Read, Update, Delete"
+
+  SSO:
+    expansion: "Single Sign-On"
+    en: "Authentication scheme allowing access to multiple systems with one login."
+    zh: "允许使用一次登录访问多个系统的认证方案。"
+    ja: "一度のログインで複数のシステムにアクセスできる認証スキーム。"
+
+  REST:
+    expansion: "Representational State Transfer"
+
+  E2E:
+    expansion: "End-to-End"
+
+# ============================================================
+# PROHIBITED TERMS (avoid using these)
+# ============================================================
+prohibited:
+  - wrong: "login"
+    correct: "sign in"
+    reason:
+      en: "Consistency with UI terminology"
+      zh: "与UI术语保持一致"
+      ja: "UI用語との一貫性"
+
+  - wrong: "logout"
+    correct: "sign out"
+    reason:
+      en: "Consistency with UI terminology"
+      zh: "与UI术语保持一致"
+      ja: "UI用語との一貫性"
