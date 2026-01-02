@@ -8,7 +8,7 @@ Create or update ProductSpec from requirements discussion. ProductSpec is the si
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **First** | `spec/product/index.yaml` |
 | **On Demand** | Existing ProductSpec (if editing) |
 | **Never** | TestSpecs, other products |

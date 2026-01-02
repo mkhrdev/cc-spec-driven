@@ -8,7 +8,7 @@ Generate TestSpec from approved ProductSpec. Test-driven: can be created before 
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | ProductSpec (approved), `spec/test/index.yaml` |
 | **Required** | `snapshot/_index.yaml` (impact analysis) |
 | **On Demand** | `snapshot/modules/{id}.yaml` (affected modules only) |

@@ -10,7 +10,7 @@ For existing projects, start from **Snapshot v1** rather than ProductSpec.
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | `cold_start_context.yaml` (human input) |
 | **Analyze** | Target repo codebase |
 | **Never** | Other products |

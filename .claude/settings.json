@@ -1,4 +1,5 @@
 {
+  "autoCompact": false,
   "permissions": {
     "allow": [
       "Bash(*)",

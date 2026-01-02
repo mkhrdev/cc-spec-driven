@@ -10,7 +10,7 @@ Review and approve Business Snapshot diff. Final step of workflow cycle.
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | Pending snapshot diff, `snapshot/_index.yaml` |
 | **On Demand** | `snapshot/modules/{id}.yaml` (affected modules only) |
 | **Never** | Other products, unaffected modules |

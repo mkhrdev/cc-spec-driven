@@ -8,7 +8,7 @@ Execute tests from TestSpec asynchronously. This runs tests in the background an
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | TestSpec (approved) |
 | **Never** | ProductSpec details (checksum only) |
 

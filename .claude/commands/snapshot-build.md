@@ -13,7 +13,7 @@ Generate Business Snapshot diff after tests pass. This skill:
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | ProductSpec, TestSpec, `snapshot/_index.yaml` |
 | **On Demand** | `snapshot/modules/{id}.yaml` |
 | **Never** | Other products |

@@ -81,7 +81,7 @@ vim products/my-product/cold_start_context.yaml
 
 ```
 spec/
-├── AGENT.md                    # Config for Claude Code
+├── CLAUDE.md                    # Config for Claude Code
 ├── .claude/commands/           # Skill definitions
 ├── docs/                       # Documentation
 ├── template/                   # Template for new products

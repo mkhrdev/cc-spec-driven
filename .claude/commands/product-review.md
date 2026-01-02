@@ -10,7 +10,7 @@ Review ProductSpec quality. Human checkpoint for approval.
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml`, `glossary.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml`, `glossary.yaml` |
 | **Required** | Target ProductSpec (full) |
 | **Required** | `snapshot/_index.yaml` (for context) |
 | **Never** | TestSpecs, other products |

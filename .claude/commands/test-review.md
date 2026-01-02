@@ -10,7 +10,7 @@ Review TestSpec quality and coverage before execution.
 
 | Load | Files |
 |------|-------|
-| **Always** | `AGENT.md`, `project.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | TestSpec (draft), Source ProductSpec |
 | **Required** | `snapshot/_index.yaml` (regression validation) |
 | **On Demand** | `snapshot/modules/{id}.yaml` (affected modules only) |

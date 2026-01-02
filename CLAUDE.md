@@ -1,4 +1,4 @@
-# AGENT.md - Spec-Driven Development Framework
+# CLAUDE.md - Spec-Driven Development Framework
 
 ## Overview
 
@@ -65,7 +65,7 @@ After snapshot merge: PRD-1.0.0-auth (final)
 
 ```
 spec/
-├── AGENT.md
+├── CLAUDE.md
 ├── .claude/commands/        # Skills
 ├── docs/                    # Documentation
 ├── template/                # Copy for new products
@@ -86,7 +86,7 @@ spec/
 
 ## Context Loading
 
-**Always Load**: `AGENT.md`, `project.yaml`, `snapshot/_index.yaml`
+**Always Load**: `CLAUDE.md`, `project.yaml`, `snapshot/_index.yaml`
 
 **Never Load**: `template/`, `docs/`, other products
 

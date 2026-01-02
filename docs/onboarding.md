@@ -6,7 +6,7 @@
 
 ```
 spec-repo/ (this repo)
-├── AGENT.md
+├── CLAUDE.md
 ├── .claude/commands/    # Skills
 ├── template/            # Copy for new products
 └── products/
@@ -19,7 +19,7 @@ spec-repo/ (this repo)
             └── test/
 
 implementation-repo/     # Your code
-├── AGENT.md            # Points to spec repo
+├── CLAUDE.md            # Points to spec repo
 └── src/...
 ```
 
@@ -97,10 +97,10 @@ For new features, follow normal workflow:
 
 ## Implementation Repos
 
-Each implementation repo needs minimal AGENT.md:
+Each implementation repo needs minimal CLAUDE.md:
 
 ```markdown
-# AGENT.md
+# CLAUDE.md
 
 **Spec Repo**: `../spec`
 **Product**: `my-product`
@@ -129,4 +129,4 @@ When implementing:
 
 ### Per Implementation Repo
 
-- [ ] Add `AGENT.md` with spec repo reference
+- [ ] Add `CLAUDE.md` with spec repo reference
