@@ -108,3 +108,25 @@ spec_config:
   # 0 = always require human decision (default)
   # n = allow up to n automatic rounds
   max_adjustment_rounds: 0
+
+# Regression Test Configuration
+regression_config:
+  # Maximum depth to trace module dependencies
+  # 1 = only direct dependencies
+  # 2 = dependencies of dependencies (recommended)
+  # 0 = no limit (full transitive closure)
+  max_dependency_depth: 2
+
+  # Include regression tests for these relationship types
+  include_relationships:
+    - depends_on
+    - provides_data
+    # - triggers  # Uncomment to include event-triggered modules
+
+  # Modules to always include in regression (critical paths)
+  always_include: []
+  # Example: [auth, payments]
+
+  # Modules to exclude from regression (low-risk, stable)
+  always_exclude: []
+  # Example: [docs, admin]

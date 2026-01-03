@@ -10,9 +10,10 @@ Review ProductSpec quality. Human checkpoint for approval.
 
 | Load | Files |
 |------|-------|
-| **Always** | `CLAUDE.md`, `project.yaml`, `glossary.yaml` |
+| **Always** | `CLAUDE.md`, `project.yaml` |
 | **Required** | Target ProductSpec (full) |
 | **Required** | `snapshot/_index.yaml` (for context) |
+| **Required** | `glossary.yaml` (for terminology check) |
 | **Never** | TestSpecs, other products |
 
 ## Trigger
@@ -79,6 +80,33 @@ Requirements Quality:
 Technical Design:
 [ ] APIs defined for cross-repo features
 [ ] Data models documented
+
+Terminology Consistency:
+[ ] No prohibited terms used (check glossary.yaml)
+[ ] Domain terms match glossary definitions
+[ ] Consistent terminology across all sections
+```
+
+### 2.1 Terminology Check
+
+Load `glossary.yaml` and verify:
+
+```yaml
+terminology_check:
+  prohibited_found:
+    - term: "login"
+      location: "FR-001.description"
+      suggestion: "sign in"
+
+  undefined_terms:
+    - term: "refresh_token"
+      location: "FR-002.description"
+      action: "Add to glossary or use existing term"
+
+  inconsistencies:
+    - term: "user" vs "User"
+      locations: ["overview", "FR-001"]
+      action: "Standardize casing"
 ```
 
 ### 3. Generate Review Report

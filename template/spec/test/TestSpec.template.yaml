@@ -14,9 +14,6 @@ _meta:
   summary: "{2-3 sentence summary of test coverage}"
   refs:
     product: "PRD-{VERSION}"
-    task:
-      - "TASK-{VERSION}-frontend"
-      - "TASK-{VERSION}-backend"
   checksum: null
 
 # ============================================================
@@ -29,7 +26,7 @@ metadata:
   last_executed: null
 
 # ============================================================
-# TRACEABILITY (DUAL REFERENCE)
+# TRACEABILITY
 # ============================================================
 generated_from:
   product:
@@ -37,14 +34,6 @@ generated_from:
     path: "../product/PRD-{VERSION}.yaml"
     checksum: "sha256:{checksum}"
     generated_at: "{timestamp}"
-
-  task:
-    - id: "TASK-{VERSION}-frontend"
-      path: "../task/TASK-{VERSION}-frontend.yaml"
-      checksum: "sha256:{checksum}"
-    - id: "TASK-{VERSION}-backend"
-      path: "../task/TASK-{VERSION}-backend.yaml"
-      checksum: "sha256:{checksum}"
 
 # ============================================================
 # COVERAGE MAPPING
@@ -76,16 +65,19 @@ environment:
 # ============================================================
 # TEST SUITES
 # ============================================================
+# For E2E flows: use type: e2e and define user journey as sequential test_cases
+# Example E2E flow: Login → View Profile → Update Settings → Logout
 test_suites:
   - id: TS-001
     name: "{Suite Name}"
-    type: e2e  # unit | integration | e2e | performance
+    type: e2e  # unit | integration | e2e | performance | regression
     description: |
       {What this suite covers}
     covers:
       requirements: []
-      tasks: []
     target_repos: []
+    # For e2e type: define the user journey
+    user_journey: "{Brief description of the flow, e.g., 'Complete login flow'}"
 
     test_cases:
       - id: TC-001
@@ -113,13 +105,10 @@ test_suites:
           script_path: null
 
 # ============================================================
-# E2E FLOWS
-# ============================================================
-e2e_flows: []
-
-# ============================================================
 # EXECUTION RESULTS
 # ============================================================
+# Note: E2E flows are represented as test_suites with type: e2e
+# Each e2e suite can define a user journey through its test_cases
 execution_results:
   latest: null
   history: []
@@ -128,11 +117,6 @@ execution_results:
 # FAILURE ANALYSIS
 # ============================================================
 failure_analysis: []
-
-# ============================================================
-# CHANGE TASKS (generated when tests fail)
-# ============================================================
-change_tasks: []
 
 # ============================================================
 # CHANGELOG (Required for auditability)
@@ -154,7 +138,7 @@ changelog:
         description: "Initial TestSpec generation"
         trigger:
           type: generated
-          content: "Generated from PRD-{VERSION} and TaskSpecs"
+          content: "Generated from PRD-{VERSION}"
         sections_modified: ["all"]
 
 # ============================================================

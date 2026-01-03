@@ -25,7 +25,8 @@ For existing projects, start from **Snapshot v1** rather than ProductSpec.
 
 | Option | Description |
 |--------|-------------|
-| `--analyze` | Analyze codebase |
+| `--analyze` | Analyze codebase and create Snapshot v1 |
+| `--regression` | Generate baseline regression TestSpec from Snapshot v1 |
 | `--repos <list>` | Specific repos to analyze |
 
 ## Cold Start Philosophy
@@ -140,12 +141,82 @@ For new features, run:
   /product-build --new <feature>
 ```
 
+## Cold Start Regression Test
+
+**IMPORTANT**: After Snapshot v1, generate baseline regression tests to validate existing functionality.
+
+### Trigger
+
+```bash
+/cold-start --regression
+```
+
+### Input Sources
+
+Regression tests are generated from **combined sources**:
+
+```
+cold_start_context.yaml (human description)
+           +
+Snapshot v1 (code analysis result)
+           ↓
+TEST-0.0.0-baseline.yaml (full regression coverage)
+```
+
+### Generated TestSpec
+
+```yaml
+# TEST-0.0.0-baseline.yaml
+_meta:
+  id: TEST-0.0.0-baseline
+  title: "Cold Start Baseline Regression Suite"
+  status: draft
+  source: cold_start  # NOT from ProductSpec
+
+generated_from:
+  snapshot:
+    version: 1
+    checksum: sha256:xxx
+  context: cold_start_context.yaml
+  product: null  # No ProductSpec for baseline
+
+test_suites:
+  - id: TS-REG-auth
+    name: "Auth Module Regression"
+    type: regression
+    covers:
+      modules: [auth]
+    test_cases:
+      - id: TC-REG-001
+        title: "Login endpoint responds correctly"
+        source: snapshot/modules/auth.yaml#login
+```
+
+### Why Full Coverage?
+
+- All existing functionality becomes "regression scope"
+- Tests validate **current behavior** as baseline
+- Future changes measured against this baseline
+- No ProductSpec exists for legacy features
+
+### Execution
+
+```bash
+# Run baseline tests
+/test-run TEST-0.0.0-baseline
+
+# Expected: ALL PASS (describing current behavior)
+# If FAIL: code bug OR test generation issue
+```
+
 ## Next Steps After Cold Start
 
 1. Review `snapshot/_index.yaml`
 2. Adjust modules if needed
-3. For new features: `/product-build --new <feature>`
-4. Follow normal workflow
+3. Run `/cold-start --regression` to generate baseline tests
+4. Execute baseline tests to validate
+5. For new features: `/product-build --new <feature>`
+6. Follow normal workflow
 
 ## Discovery Report (Optional)
 

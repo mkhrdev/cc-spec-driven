@@ -2,13 +2,16 @@
 
 ## Overview
 
-This repo is a **Specification Hub** for software products. Test-driven workflow: ProductSpec → TestSpec → Development → Snapshot.
+This repo is a **Specification Hub** for software products. Requirements-driven workflow: ProductSpec → TestSpec → Snapshot.
+
+**Scope**: This repo manages **specifications only**. Implementation and test execution happen in external repos.
 
 **Core Rules**:
 1. ProductSpec is single source of truth (includes API design)
-2. Test specs created before implementation (test-driven)
+2. TestSpec defines test cases before implementation (test-driven)
 3. Human checkpoints after each build-review pair
 4. No backtracking after snapshot phase
+5. Development workflow is external - specs provide the contract
 
 ---
 
@@ -19,10 +22,14 @@ This repo is a **Specification Hub** for software products. Test-driven workflow
                                           ↓
 /test-build → /test-review → HUMAN CHECK #2
                                     ↓
-/test-run (async) → HUMAN CHECK #3 (L1/L2/L3) → tests pass
-                                                     ↓
+         [External: Implementation & Test Execution]
+                                    ↓
+/test-run → HUMAN CHECK #3 (L1/L2/L3) → tests pass
+                                              ↓
 /snapshot-build → /snapshot-review → HUMAN CHECK #4 → END
 ```
+
+**Note**: `/test-run` records external test results; actual execution happens outside this repo.
 
 ### Skills
 
@@ -33,6 +40,9 @@ This repo is a **Specification Hub** for software products. Test-driven workflow
 | `/test-run` | (none) | YES (L1/L2/L3 attribution) |
 | `/snapshot-build` | `/snapshot-review` | YES |
 | `/cold-start` | (none) | YES |
+| `/status` | (none) | NO (read-only) |
+
+**Auto-Chain**: Claude automatically invokes the next skill upon completion. No user action needed between chained skills.
 
 ---
 
@@ -139,4 +149,5 @@ This feeds into Snapshot and development.
 |-----|---------|
 | [docs/workflow.md](docs/workflow.md) | Full workflow |
 | [docs/revision-handling.md](docs/revision-handling.md) | Backtrack handling |
+| [docs/parallel-development.md](docs/parallel-development.md) | Parallel feature handling |
 | [docs/onboarding.md](docs/onboarding.md) | Setup guide |

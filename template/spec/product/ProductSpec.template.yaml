@@ -14,8 +14,13 @@ _meta:
   summary: "{2-3 sentence summary for quick scanning}"
   refs:
     product: null  # ProductSpec has no parent
-    task: []       # Populated after TaskSpec generation
+    test: null     # Populated after TestSpec generation
   checksum: null   # Auto-generated
+  # Parallel development info (see docs/parallel-development.md)
+  parallel_info:
+    affects_modules: []      # Modules this feature modifies
+    priority: null           # Lower = higher priority (for same module)
+    waits_for: null          # PRD ID this feature depends on
 
 # ============================================================
 # METADATA
@@ -24,6 +29,28 @@ metadata:
   created_at: "{timestamp}"
   updated_at: "{timestamp}"
   author: "{author}"
+  # Primary language for this spec (matches project.yaml)
+  language: en  # en | zh | ja | etc.
+
+# ============================================================
+# LOCALIZED CONTENT (Optional)
+# ============================================================
+# Use this section when requirements need multiple language versions
+# Primary language content goes in main sections; translations here
+localized:
+  # Example: Chinese translation of overview
+  # zh:
+  #   overview:
+  #     description: |
+  #       {中文描述}
+  #     goals:
+  #       - "{目标1}"
+  #   requirements:
+  #     functional:
+  #       FR-001:
+  #         title: "{需求标题}"
+  #         description: |
+  #           {详细描述}
 
 # ============================================================
 # OVERVIEW
@@ -116,6 +143,39 @@ affected_repos:
   shared:
     impact: none
     summary: ""
+
+# ============================================================
+# TECHNICAL DESIGN (for cross-repo alignment)
+# ============================================================
+# This section ensures developers across repos have aligned understanding
+# of APIs, data models, and integration points.
+technical_design:
+  # API contracts for cross-repo consistency
+  apis:
+    - endpoint: "{METHOD} {path}"
+      purpose: "{What this API does}"
+      auth_required: true
+      request:
+        body:
+          "{field}": { type: "{type}", required: true }
+      response:
+        success:
+          "{field}": { type: "{type}" }
+        errors: ["{error_code}"]
+
+  # Shared data models
+  models:
+    - name: "{ModelName}"
+      purpose: "{What this model represents}"
+      fields:
+        - { name: "{field}", type: "{type}", description: "{desc}" }
+
+  # Integration points between repos
+  integration_points:
+    - from: "{repo}"
+      to: "{repo}"
+      type: api_call  # api_call | event | shared_type
+      description: "{How they integrate}"
 
 # ============================================================
 # RISKS

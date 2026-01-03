@@ -15,9 +15,32 @@ Suffixes:
 
 **Key Rule**: x.x.x version tracks **product scope**, not iterations.
 
-- Same requirement with revisions → version unchanged
-- New scope/feature → minor version bump
-- Breaking change → major version bump
+### Semantic Versioning Reference
+
+**Note**: Version numbers are **decided by humans**. This workflow does not determine or change versions - it only aligns with human decisions.
+
+| Change Type | Version Bump | Examples |
+|-------------|--------------|----------|
+| **MAJOR** (x.0.0) | Breaking changes | Remove feature, API incompatible change, data model restructure |
+| **MINOR** (0.x.0) | New functionality | Add new module, new API endpoint, new feature |
+| **PATCH** (0.0.x) | Improvements | Bug fix, performance optimization, clarification |
+
+### Version Guidance (for human reference)
+
+```
+Breaking change? → Consider MAJOR bump
+New capability?  → Consider MINOR bump
+Fix/improve?     → Consider PATCH bump
+```
+
+### Multi-Feature Version Patterns
+
+- **Related features**: Same MAJOR.MINOR, different feature suffix
+  - `PRD-1.0.0-login`, `PRD-1.0.0-logout` (both part of auth 1.0)
+- **Independent features**: Can have different versions
+  - `PRD-1.0.0-auth`, `PRD-2.0.0-payments` (different product areas)
+- **Dependent features**: Child inherits parent's MAJOR version
+  - `PRD-1.0.0-user` → `PRD-1.0.0-auth` (auth depends on user)
 
 ## Test Failure Attribution
 

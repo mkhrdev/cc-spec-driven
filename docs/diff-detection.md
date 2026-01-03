@@ -91,9 +91,11 @@ source:
 
 ## Checksum Mismatch Handling
 
+**Policy**: Checksum mismatch is a **BLOCKING ERROR**. Human intervention required.
+
 ```
-Checksum Verification Failed
-════════════════════════════
+BLOCKING ERROR: Checksum Verification Failed
+════════════════════════════════════════════
 
 ProductSpec: PRD-1.0.0-auth
   Recorded: sha256:a1b2c3d4e5f6
@@ -101,11 +103,19 @@ ProductSpec: PRD-1.0.0-auth
 
 ProductSpec has changed since TestSpec was generated.
 
-Options:
-  1. Regenerate TestSpec
-  2. Review changes and decide
-  3. Abort operation
+⛔ Operation blocked. Human must decide:
+
+  1. Regenerate TestSpec from updated ProductSpec
+     → Run: /test-build PRD-1.0.0-auth --regenerate
+
+  2. Revert ProductSpec changes (if unintended)
+     → Restore previous version manually
+
+  3. Abort and investigate
+     → Check changelog for what changed
 ```
+
+**Rationale**: Specs are the source of truth. Mismatched checksums indicate spec drift, which can lead to incorrect test coverage or snapshot inconsistencies.
 
 ## Quick Reference
 

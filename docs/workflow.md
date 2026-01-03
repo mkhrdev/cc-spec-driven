@@ -148,3 +148,5 @@ On /snapshot-review --approve:
 | Test | `/test-build` | `/test-review` | YES |
 | Execution | `/test-run` | (none) | YES (L1/L2/L3) |
 | Snapshot | `/snapshot-build` | `/snapshot-review` | YES |
+
+**Auto-Chain Behavior**: When a skill completes, Claude automatically invokes the chained skill without user intervention. The human checkpoint occurs after the chain completes.

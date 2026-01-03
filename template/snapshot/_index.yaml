@@ -31,3 +31,11 @@ relationships:
     to: "{module_id}"
     type: depends_on                      # depends_on | provides_data | triggers
     description: "{how they relate}"
+
+# Module locks for parallel development (see docs/parallel-development.md)
+module_locks: []
+# Example:
+#   - module: auth
+#     locked_by: PRD-1.0.0-login
+#     status: test_run                    # draft | test_run | snapshot_pending
+#     locked_at: "{timestamp}"

@@ -89,7 +89,24 @@ On /snapshot-review --approve:
 3. Promote specs to -rc suffix
 ```
 
-### 2. Generate Snapshot Diff
+### 2. Build Requirement-to-Module Mapping
+
+Map ProductSpec requirements (FR/NFR) to Snapshot structure (module/feature):
+
+```yaml
+# Generated mapping table
+requirement_mapping:
+  FR-001:
+    module: auth
+    feature: login
+  FR-002:
+    module: auth
+    feature: logout
+  NFR-001:
+    modules: [auth, users]  # Cross-cutting
+```
+
+### 3. Generate Snapshot Diff
 
 ```yaml
 snapshot_diff:
@@ -97,18 +114,25 @@ snapshot_diff:
   current_version: 3
   proposed_version: 4
 
+  # Traceability mapping
+  requirement_mapping:
+    FR-001: { module: auth, feature: login }
+    FR-002: { module: auth, feature: logout }
+
   changes:
     modules:
       added:
         - id: auth
           name: "User Authentication"
           feature_count: 3
+          source_requirements: [FR-001, FR-002]
 
     features:
       added:
         - module: auth
           id: login
           name: "User Login"
+          source_requirements: [FR-001]
           details:
             apis:
               - endpoint: "POST /api/auth/login"
@@ -116,7 +140,7 @@ snapshot_diff:
               - name: login_form
 ```
 
-### 3. Include Technical Details
+### 4. Include Technical Details
 
 Snapshot captures technical design from ProductSpec:
 
@@ -138,14 +162,14 @@ features:
         - "Failed login locked after 5 tries"
 ```
 
-### 4. Save & Auto-Chain
+### 5. Save & Auto-Chain
 
 ```
 1. Save diff to snapshot/pending/
 2. AUTO-CHAIN to /snapshot-review
 ```
 
-### 5. Output
+### 6. Output
 
 ```
 Snapshot Diff Generated
