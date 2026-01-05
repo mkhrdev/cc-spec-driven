@@ -32,6 +32,28 @@ English · [中文](../../README.md) · [日本語](./README.ja.md)
 - **📚 Docs as Truth** - Confirmed documentation is the sole reference for dev and testing
 - **🔍 Top-Down Refinement** - Start with module overview, then detail features as needed
 
+## 💪 Framework Advantages
+
+### Intelligent Dependency Management
+- **Bidirectional Tracking**: deps (dependencies) + affects (dependents) auto-maintained
+- **Scope Expansion Check**: Auto-detect missing dependency changes on confirm
+- **Global Dependency Graph**: `_deps.yaml` enables quick impact analysis
+
+### Context Loading Optimization
+- **Tiered Loading Strategy**: Level 0-3 on-demand loading, optimizes token usage
+- **Always Loaded**: project.yaml, glossary.yaml, overview.md
+- **On-Demand**: Only load relevant feature frontmatter and content
+
+### Safety Guard Design
+- **RC Preview Mechanism**: Generate preview before merge, human confirms before finalization
+- **Implicit State Rollback**: Auto-warn and rollback when modifying confirmed CR
+- **Dependency Scope Protection**: Prevent missing affected documents
+
+### Parallel Work Friendly
+- Git branches enable concurrency, each branch has independent RC
+- Use rebase for merging, clear rules
+- No parallel bottlenecks
+
 ## 🚀 Quick Start
 
 ```bash
@@ -110,33 +132,56 @@ spec/
 | `/dd-spec-dev` | Generate dev spec | Requires confirmed status |
 | `/dd-spec-test` | Generate test spec | Requires confirmed, supports --init |
 
-## 🔄 Workflow
+## 🔄 Workflow Details
+
+### State Transitions
 
 ```
-┌──────────┐      ┌──────────┐
-│ feature  │╌╌╌╌╌▶│  /done   │
-└──────────┘      └────▲─────┘
-     │                 │
-     ▼                 │
-┌──────────┐      ┌───────────┐      ┌─────────────────┐
-│ /update  │◀────▶│ /confirm  │─────▶│ spec (dev/test) │
-└────┬─────┘      └─────┬─────┘      └─────────────────┘
-     │                  │
-     └────────┬─────────┘
-              ▼
-        ┌──────────┐
-        │  /drop   │
-        └──────────┘
+draft → confirmed → done (archived)
+  │         │
+  └────┬────┘
+       ↓
+    dropped
 ```
+
+### Standard Flow
+
+| Step | Command | Output | Description |
+|------|---------|--------|-------------|
+| 1 | `/dd-update "description"` | CR-{id}.md | Create change record, analyze impact |
+| 2 | Human review | - | Multiple rounds of `/dd-update CR-{id}` adjustments |
+| 3 | `/dd-confirm CR-{id}` | *.rc-{id}.md | Generate RC preview documents |
+| 4 | `/dd-spec-dev\|test` | specs/*.md | Optional: Generate dev/test specs |
+| 5 | `/dd-done CR-{id}` | Official docs | Merge RC, archive CR and specs |
+
+### Dependency Change Flow
+
+```
+/dd-update   →  Analyze dependency changes, record in CR
+                ↓
+/dd-confirm  →  Check out-of-scope dependencies
+                ├─ Missing → Auto-expand CR, exit for review
+                └─ Complete → Generate RC, update bidirectional deps
+                ↓
+/dd-done     →  Merge RC, rebuild _deps.yaml
+```
+
+### Special Modes
+
+| Mode | Command | Purpose |
+|------|---------|---------|
+| Bootstrap | `/dd-update "desc" --bootstrap` | Create feature.md directly, skip CR |
+| Implemented | `/dd-update "desc" --implemented` | CR flow but no dev spec |
+| State Rollback | `/dd-update CR-{id}` (confirmed) | Warn, delete RC/spec, rollback to draft |
 
 ### Status Description
 
 | Status | Document Change |
 |--------|-----------------|
-| update | Only CR, no doc changes |
-| confirm | Generates `.rc-{id}.md` preview |
-| done | Deletes RC, merges to official docs |
-| drop | Deletes RC, no rollback needed |
+| draft | Only CR, no doc changes |
+| confirmed | Generates `.rc-{id}.md` preview |
+| done | Deletes RC, merges to official docs, archives |
+| dropped | Deletes RC/spec, moves to dropped/ |
 
 ## 📖 Documentation
 
@@ -147,6 +192,15 @@ spec/
 This framework is designed around "how to construct the most valuable context," maximizing the value of every token. Most so-called Spec-Driven Development approaches are anti-patterns—dumping piles of documents on an LLM, where excessive "rules" actually degrade the model's attention and compliance. It's easy to fall into the over-engineering trap if you don't find the right balance.
 
 To truly leverage Spec-Driven Development effectively, **it must be modular and incremental**. Break requirements into modules and plans, then apply Spec-Driven practices to each step individually.
+
+## 📐 Design Principles
+
+> See [TODO.md](../../TODO.md) for details
+
+- **MVP Mindset**: Keep it simple first, enhance as needed
+- **Subtract Before Adding**: Don't introduce complexity prematurely
+- **Leverage Git**: Branches for concurrency, revert for rollback—don't reinvent the wheel
+- **Tools Not Mandates**: `/dd-check` is a tool, not a blocking gate
 
 ---
 
