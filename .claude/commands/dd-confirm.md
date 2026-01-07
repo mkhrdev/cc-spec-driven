@@ -1,46 +1,46 @@
-# /dd-confirm - 确认变更
+# /dd-confirm - Confirm Change
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
 /dd-confirm <CR-id>
 ```
 
-## 前置条件
+## Prerequisites
 
-状态必须是 `draft`，否则拒绝并提示当前状态。
-
----
-
-## 执行步骤
-
-1. **加载 CR**: 验证状态
-2. **检查范围外依赖**: 见下方"依赖范围扩展"
-3. **加载上下文**: 按 `_base.md` 策略，重点加载影响范围内的 feature
-4. **生成 RC 文档**: 对每个涉及的功能生成预览版
-5. **应用依赖变更**: 将 CR 中记录的依赖变更写入 RC 文件
-6. **更新状态**: status → `confirmed`
-
-### 生成 RC 文档
-
-- **功能已存在**: 加载 `features/{feature}.md`，应用变更，保存为 `.rc-{id}.md`
-- **新建功能**: 从 CR 提取信息，创建 `.rc-{id}.md`
-
-RC 格式见 `_base.md`。
+Status must be `draft`, otherwise reject and show current status.
 
 ---
 
-## 依赖范围扩展
+## Execution Steps
 
-检查 CR 中 `## 依赖变更` 涉及的所有 feature：
+1. **Load CR**: Validate status
+2. **Check out-of-scope dependencies**: See "Dependency Scope Extension" below
+3. **Load context**: Follow strategy in `_base.md`, focus on features in impact scope
+4. **Generate RC documents**: Generate preview version for each involved feature
+5. **Apply dependency changes**: Write dependency changes recorded in CR to RC files
+6. **Update status**: status → `confirmed`
 
-**如果某 feature 不在 `## 影响范围` 中**:
-1. 自动更新 CR（扩展影响范围、补充依赖变更）
-2. 输出提示（格式见 `_base.md` 通用输出格式）
-3. **退出，不生成 RC**
+### Generate RC Documents
 
-用户需 review 更新后的 CR，重新执行 `/dd-confirm`。
+- **Feature exists**: Load `features/{feature}.md`, apply changes, save as `.rc-{id}.md`
+- **New feature**: Extract info from CR, create `.rc-{id}.md`
 
-**如果所有依赖都在范围内**: 正常生成 RC。
+RC format in `_base.md`.
+
+---
+
+## Dependency Scope Extension
+
+Check all features in CR's `## Dependency Changes` section:
+
+**If a feature is NOT in `## Impact Scope`**:
+1. Auto-update CR (extend impact scope, add dependency changes)
+2. Output notice (format in `_base.md` common output formats)
+3. **Exit, do not generate RC**
+
+User needs to review updated CR, then re-run `/dd-confirm`.
+
+**If all dependencies are in scope**: Proceed to generate RC normally.

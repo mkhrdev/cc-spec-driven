@@ -1,65 +1,65 @@
-# /dd-update - 更新文档
+# /dd-update - Update Documents
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
-/dd-update "<描述>"                    # 创建新变更
-/dd-update "<描述>" --implemented      # 已实现功能
-/dd-update "<描述>" --bootstrap        # 冷启动模式
-/dd-update <CR-id>                     # 修改已有变更
-/dd-update <CR-id> "<补充描述>"        # 追加内容
-```
-
----
-
-## 创建新变更
-
-1. **生成ID**: 读取 `project.yaml` 的 `next_cr_id`，自增保存，生成 UUID
-2. **加载上下文**: 按 `_base.md` 的 Context Loading（含 `_deps.yaml`）
-3. **分析影响范围**: 识别涉及的 feature、判断是否新建
-4. **分析依赖变更**: 读取 `_deps.yaml`，推导双向关系，输出影响分析
-5. **术语检查**: 仅 console 提醒
-6. **多轮澄清**: 需求不明确时询问，记录到 CR
-7. **创建 CR**: 格式见 `_base.md`
-8. **创建 tech.md**: 如涉及新功能
-
----
-
-## 修改已有变更
-
-| 状态 | 处理 |
-|------|------|
-| draft | 直接追加 |
-| confirmed | 警告后回退（删除RC/spec，状态→draft）|
-| done/dropped | 拒绝 |
-
-**confirmed 回退**:
-```
-警告: CR-{id} 已确认，修改将触发:
-- 状态回退到 draft
-- 删除 RC 文件和 spec 文件
-是否继续? (y/n)
+/dd-update "<description>"                    # Create new change
+/dd-update "<description>" --implemented      # Already implemented feature
+/dd-update "<description>" --bootstrap        # Bootstrap mode
+/dd-update <CR-id>                            # Modify existing change
+/dd-update <CR-id> "<additional description>" # Append content
 ```
 
 ---
 
-## --bootstrap 模式
+## Create New Change
 
-直接创建/更新 feature.md，不生成 CR/spec。
+1. **Generate ID**: Read `next_cr_id` from `project.yaml`, increment and save, generate UUID
+2. **Load context**: Follow Context Loading in `_base.md` (including `_deps.yaml`)
+3. **Analyze impact scope**: Identify involved features, determine if new features needed
+4. **Analyze dependency changes**: Read `_deps.yaml`, derive bidirectional relationships, output impact analysis
+5. **Terminology check**: Console reminder only
+6. **Multi-round clarification**: Ask when requirements unclear, record to CR
+7. **Create CR**: Format in `_base.md`
+8. **Create tech.md**: If new feature involved
 
-1. 加载上下文（含 `_deps.yaml`）
-2. 分析影响范围
-3. 直接创建/更新 `features/{feature}.md`
-4. 更新依赖关系到文档
-5. 更新 `_deps.yaml`
-6. 术语检查（仅 console 提醒）
+---
 
-冷启动后建议执行 `/dd-check`。
+## Modify Existing Change
+
+| Status | Handling |
+|--------|----------|
+| draft | Append directly |
+| confirmed | Warn then rollback (delete RC/spec, status→draft) |
+| done/dropped | Reject |
+
+**Confirmed rollback**:
+```
+Warning: CR-{id} is confirmed, modification will trigger:
+- Status rollback to draft
+- Delete RC files and spec files
+Continue? (y/n)
+```
+
+---
+
+## --bootstrap Mode
+
+Directly create/update feature.md, skip CR/spec generation.
+
+1. Load context (including `_deps.yaml`)
+2. Analyze impact scope
+3. Directly create/update `features/{feature}.md`
+4. Update dependency relationships in document
+5. Update `_deps.yaml`
+6. Terminology check (console reminder only)
+
+After bootstrap, suggest running `/dd-check`.
 
 ---
 
 ## --implemented
 
-走 CR 流程，但 type 标记为 `implemented`，不生成 spec-dev。
+Run CR workflow, but mark type as `implemented`, skip spec-dev generation.

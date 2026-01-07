@@ -1,153 +1,160 @@
+@import CLAUDE.local.md
+
 # CLAUDE.md - Spec-Driven Document-First Development Framework
 
 ## Overview
 
-规格驱动文档先行的文档管理框架，用于管理多产品的需求文档。
+A spec-driven, document-first documentation management framework for managing multi-product requirement documents.
 
-**核心理念**：
-- 文档是 Single Source of Truth
-- 渐进式完善，先粗后细
-- AI辅助维护，人类确认
+**Core Principles**:
+- Documents are Single Source of Truth
+- Progressive enhancement: start rough, refine gradually
+- AI-assisted maintenance, human confirmation
 
-**配置**：
-- 变更ID前缀: `CR`
-- 默认语言: `zh`
+**Configuration**:
+- Change ID prefix: `CR`
+- Default language: `en`
 
 ---
 
-## 目录结构
+## Language Policy
+
+- Framework documentation: English only
+- Command prompts and outputs: English only
+- Products (`products/*/`): Per-product language setting in project.yaml
+- User communication: Follow user's language preference
+
+---
+
+## Directory Structure
 
 ```
 spec/
-├── CLAUDE.md                     # 本文件
+├── CLAUDE.md                     # This file
 │
 └── products/
     └── {product}/
-        ├── project.yaml          # 产品配置 (含 next_cr_id)
-        ├── glossary.yaml         # 术语表 (人类维护)
-        ├── overview.md           # 产品全景
-        ├── features/             # 功能文档
-        │   ├── _deps.yaml        # 依赖图索引 (自动维护)
-        │   ├── {feature}.md      # 业务需求 (正式)
-        │   ├── {feature}.rc-{id}.md    # 业务需求 (CR预览版)
-        │   ├── {feature}.tech.md       # 技术共识 (正式)
-        │   └── {feature}.tech.rc-{id}.md # 技术共识 (CR预览版)
-        ├── changes/              # 变更记录
-        │   ├── _index.yaml       # 变更索引
-        │   ├── CR-{id}.md        # 进行中的变更
-        │   ├── archive/          # 已完成的变更
-        │   └── dropped/          # 已放弃的变更
-        └── specs/                # 规格文件
-            ├── _index.yaml       # 规格索引
-            ├── CR-{id}.dev.md    # 开发规格
-            ├── CR-{id}.test.md   # 测试规格
-            ├── archive/          # 已完成的规格
-            └── dropped/          # 已放弃的规格
+        ├── project.yaml          # Product config (includes next_cr_id)
+        ├── glossary.yaml         # Glossary (human-maintained)
+        ├── overview.md           # Product overview
+        ├── features/             # Feature documents
+        │   ├── _deps.yaml        # Dependency graph index (auto-maintained)
+        │   ├── {feature}.md      # Business requirements (formal)
+        │   ├── {feature}.rc-{id}.md    # Business requirements (CR preview)
+        │   ├── {feature}.tech.md       # Technical consensus (formal)
+        │   └── {feature}.tech.rc-{id}.md # Technical consensus (CR preview)
+        ├── changes/              # Change records
+        │   ├── _index.yaml       # Change index
+        │   ├── CR-{id}.md        # In-progress changes
+        │   ├── archive/          # Completed changes
+        │   └── dropped/          # Dropped changes
+        └── specs/                # Spec files
+            ├── _index.yaml       # Spec index
+            ├── CR-{id}.dev.md    # Development spec
+            ├── CR-{id}.test.md   # Test spec
+            ├── archive/          # Completed specs
+            └── dropped/          # Dropped specs
 ```
 
 ---
 
 ## Skills
 
-### 核心 Skills
+### Core Skills
 
-| Skill | 作用 |
-|-------|------|
-| `/dd-init` | 初始化产品 |
-| `/dd-status` | 查看状态 |
-| `/dd-update` | 创建/修改变更 |
-| `/dd-confirm` | 确认变更 (生成 RC 预览) |
-| `/dd-done` | 标记完成 (合并 RC 到正式) |
-| `/dd-drop` | 放弃变更 |
+| Skill | Purpose |
+|-------|---------|
+| `/dd-init` | Initialize product |
+| `/dd-status` | View status |
+| `/dd-update` | Create/modify change |
+| `/dd-confirm` | Confirm change (generate RC preview) |
+| `/dd-done` | Mark complete (merge RC to formal) |
+| `/dd-drop` | Abandon change |
 
-### 辅助 Skills
+### Auxiliary Skills
 
-| Skill | 作用 |
-|-------|------|
-| `/dd-check` | 综合检查 (console 输出) |
-| `/dd-rebase` | 处理分支合并冲突 |
-| `/dd-spec-dev` | 生成开发规格 (需 confirmed) |
-| `/dd-spec-test` | 生成测试规格 (需 confirmed) |
+| Skill | Purpose |
+|-------|---------|
+| `/dd-check` | Consistency check (console output) |
+| `/dd-rebase` | Handle branch merge conflicts |
+| `/dd-spec-dev` | Generate dev spec (requires confirmed) |
+| `/dd-spec-test` | Generate test spec (requires confirmed) |
 
-### Command 架构
+### Command Architecture
 
-所有 `/dd-*` 命令共享 `.claude/commands/_base.md` 中的公共定义。
-各命令文件只包含用法和执行步骤，格式定义引用 `_base.md`。
+All `/dd-*` commands share common definitions in `.claude/commands/_base.md`.
+Each command file contains only usage and execution steps, format definitions reference `_base.md`.
 
 ---
 
-## 工作流
+## Workflow
 
-### 状态流转
+### State Transitions
 
 ```
-draft → confirmed → done (归档)
+draft → confirmed → done (archived)
   │         │
   └────┬────┘
        ↓
     dropped
 ```
 
-### 标准流程
+### Standard Flow
 
 ```
-1. /dd-update "描述"     → 创建 CR (draft)
-2. 人类 review           → 可能多轮调整
-3. /dd-confirm CR-{id}   → 生成 RC 预览 (confirmed)
-4. /dd-spec-dev|test     → 生成规格 (可选)
-5. /dd-done CR-{id}      → 合并到正式文档
+1. /dd-update "description"  → Create CR (draft)
+2. Human review              → Multiple rounds possible
+3. /dd-confirm CR-{id}       → Generate RC preview (confirmed)
+4. /dd-spec-dev|test         → Generate specs (optional)
+5. /dd-done CR-{id}          → Merge to formal documents
 ```
 
-### 依赖变更流转
+### Dependency Change Flow
 
 ```
-/dd-update   →  发现依赖变更，记录到 CR
-/dd-confirm  →  检查范围外依赖，必要时扩展CR后退出
-/dd-done     →  合并RC到正式文档，更新 _deps.yaml
+/dd-update   →  Detect dependency changes, record to CR
+/dd-confirm  →  Check out-of-scope deps, extend CR if needed then exit
+/dd-done     →  Merge RC to formal docs, update _deps.yaml
 ```
 
-### 冷启动模式
+### Bootstrap Mode
 
 ```
-/dd-update "描述" --bootstrap
-→ 直接创建 feature.md，不生成 CR
-→ 完成后建议执行 /dd-check
+/dd-update "description" --bootstrap
+→ Directly create feature.md, skip CR
+→ Suggest running /dd-check after completion
 ```
 
 ---
 
-## Context Loading & 文档格式
+## Context Loading & Document Formats
 
-→ 详见 `.claude/commands/_base.md`
+→ See `.claude/commands/_base.md` for details
 
 ---
 
-## 注意事项
+## Design Decisions
 
-以下是经过深思熟虑的设计决策：
+The following are deliberate design choices:
 
-1. **单分支单 RC**: 文档用 git 管理，如需合并用 rebase
+1. **Single branch, single RC**: Documents managed in git, use rebase for merges
 
-2. **隐式状态回退**: `/dd-update <CR-id>` 对 confirmed 状态会触发回退
+2. **Implicit state rollback**: `/dd-update <CR-id>` on confirmed status triggers rollback
 
-3. **Spec 生成后的事不归此 repo 管**: 只负责文档和规格
+3. **Post-spec generation out of scope**: Only responsible for docs and specs
 
-4. **术语仅 console 提醒**: glossary.yaml 由人类维护
+4. **Terminology console-only**: glossary.yaml maintained by humans
 
-5. **按需改善一致性检查**: 索引同步、依赖验证等按需完善
+5. **Consistency checks on demand**: Index sync, dependency validation improved as needed
 
-6. **版本管理与产品发布解绑**: CR 版本追踪与对外发布版本无关
+6. **Version management decoupled from release**: CR version tracking unrelated to external release versions
 
-### 范围边界
+### Scope Boundaries
 
-- 此框架**只管文档**，开发进度追踪、代码同步不在范围内
-- 跨产品依赖不在设计范围内，每个产品独立
+- This framework **only manages documents**, development progress tracking and code sync are out of scope
+- Cross-product dependencies are out of design scope, each product is independent
 
-### 工具 vs 流程
+### Tool vs Process
 
-- `/dd-check` 是给人类的**工具**，不是强制的流程步骤
-- 一致性检查不阻断操作，人类决定是否修复
-
-### 演进路线
-
-→ 详见 `TODO.md`：设计原则、范围边界、未来改进方向
+- `/dd-check` is a **tool** for humans, not a mandatory process step
+- Consistency checks are non-blocking, humans decide whether to fix

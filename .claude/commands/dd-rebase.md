@@ -1,32 +1,32 @@
-# /dd-rebase - 处理分支合并冲突
+# /dd-rebase - Handle Branch Merge Conflicts
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-当分支合并遇到文档冲突时，帮助重新应用变更意图。
+When branch merge encounters document conflicts, help reapply change intent.
 
-**核心理念**: 重新应用变更意图，而非文本合并。
+**Core concept**: Reapply change intent, not text merge.
 
-## 用法
+## Usage
 
 ```
 /dd-rebase <CR-id>
 ```
 
-## 执行步骤
+## Execution Steps
 
-1. **加载 CR**: 提取原始需求和变更意图
-2. **加载当前主线文档**: 已含其他分支改动
-3. **意图提取**（优先级）: 原始输入 > 变更内容 > 澄清记录
-4. **冲突分析**: 识别冲突类型
-   - 概念冲突：同一概念的不同定义
-   - 指标冲突：数值/限制的不同设定
-   - 顺序冲突：流程/步骤的不同排列
-   - 范围冲突：功能边界的不同界定
-5. **输出分析报告**: 显示变更意图、当前状态、冲突点和建议
-6. **人类确认**: 决定如何处理每个冲突
-7. **重新生成**: 基于当前主线应用调整后的变更，更新 CR
+1. **Load CR**: Extract original requirements and change intent
+2. **Load current main branch documents**: Already contains other branch changes
+3. **Intent extraction** (priority): Original Input > Change Content > Clarification Records
+4. **Conflict analysis**: Identify conflict type
+   - Concept conflict: Different definitions of same concept
+   - Metric conflict: Different values/limits
+   - Order conflict: Different process/step ordering
+   - Scope conflict: Different feature boundary definitions
+5. **Output analysis report**: Show change intent, current state, conflict points and suggestions
+6. **Human confirmation**: Decide how to handle each conflict
+7. **Regenerate**: Apply adjusted changes based on current main branch, update CR
 
-## 注意事项
+## Notes
 
-- Rebase 后 CR 保持原状态（draft/confirmed）
-- 会在 CR 中添加"Rebase记录"章节
+- After rebase, CR maintains original status (draft/confirmed)
+- Will add "Rebase Records" section to CR

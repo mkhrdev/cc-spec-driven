@@ -1,10 +1,10 @@
-# /dd-check - 检查文档一致性
+# /dd-check - Check Document Consistency
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-所有检查结果**仅输出到 console**，不生成文件，不阻断流程。
+All check results **output to console only**, no file generation, non-blocking.
 
-## 用法
+## Usage
 
 ```
 /dd-check [product]
@@ -12,51 +12,51 @@
 /dd-check [product] --type=all
 ```
 
-## 检查类型
+## Check Types
 
-| 类型 | 检查内容 |
-|------|---------|
-| glossary | 术语表与文档使用一致性 |
-| format | 文档格式规范（必要章节、frontmatter） |
-| deps | 依赖关系（存在性、循环、双向一致、_deps.yaml同步） |
-| refs | 引用关系（CR↔feature、孤立文档、RC↔CR） |
-| status | 状态一致性（长期 draft、索引同步） |
-
----
-
-## _deps.yaml 验证
-
-检查 `features/_deps.yaml` 与各 feature.md 的一致性：
-
-1. **同步检查**: _deps.yaml 中的依赖关系是否与 feature.md 的 frontmatter 一致
-2. **双向检查**: A.deps 包含 B → B.affects 应包含 A
-3. **存在性检查**: 引用的 feature 是否存在
-
-如发现不一致，输出具体差异。
+| Type | Check Content |
+|------|---------------|
+| glossary | Glossary and document usage consistency |
+| format | Document format standards (required sections, frontmatter) |
+| deps | Dependencies (existence, cycles, bidirectional consistency, _deps.yaml sync) |
+| refs | References (CR↔feature, orphan documents, RC↔CR) |
+| status | Status consistency (long-term draft, index sync) |
 
 ---
 
-## 输出格式
+## _deps.yaml Validation
+
+Check `features/_deps.yaml` consistency with each feature.md:
+
+1. **Sync check**: Whether dependencies in _deps.yaml match feature.md frontmatter
+2. **Bidirectional check**: A.deps contains B → B.affects should contain A
+3. **Existence check**: Whether referenced features exist
+
+If inconsistencies found, output specific differences.
+
+---
+
+## Output Format
 
 ```
-=== 文档检查: {product} ===
+=== Document Check: {product} ===
 
-[严重] 必须修复:
-  ✗ {类型}: {问题描述}
+[Critical] Must fix:
+  ✗ {type}: {issue description}
 
-[警告] 建议修复:
-  ⚠ {类型}: {问题描述}
+[Warning] Recommended fix:
+  ⚠ {type}: {issue description}
 
-[信息] 供参考:
-  ℹ {类型}: {问题描述}
+[Info] For reference:
+  ℹ {type}: {issue description}
 
-统计: {n} 功能 | {m} 技术共识 | {p} 进行中 | {q} 已完成
+Statistics: {n} features | {m} tech docs | {p} in-progress | {q} completed
 
-检查完成: {x} 严重 | {y} 警告 | {z} 信息
+Check completed: {x} critical | {y} warning | {z} info
 ```
 
-## 设计原则
+## Design Principles
 
-- **仅提醒，不阻断**: 检查结果仅供参考
-- **Console 输出**: 不生成报告文件
-- **人类决策**: 是否修复由人类判断
+- **Remind only, non-blocking**: Check results for reference only
+- **Console output**: No report file generation
+- **Human decision**: Whether to fix is decided by humans

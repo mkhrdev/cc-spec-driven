@@ -1,24 +1,24 @@
-# /dd-status - 查看状态
+# /dd-status - View Status
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
 /dd-status [product-name]
 ```
 
-## 无参数：列出所有产品
+## No arguments: List all products
 
-扫描 `products/` 目录，输出产品列表及其变更统计。
+Scan `products/` directory, output product list with change statistics.
 
-## 指定产品：显示详细状态
+## With product: Show detailed status
 
-扫描并输出：
-- 功能文档列表（features/*.md，排除 .rc-*.md）
-- RC 预览文档列表
-- 进行中的变更（含状态、RC数量、spec状态）
-- 最近完成的变更（最新5个）
-- 统计信息
+Scan and output:
+- Feature documents list (features/*.md, exclude .rc-*.md)
+- RC preview documents list
+- In-progress changes (with status, RC count, spec status)
+- Recent completed changes (latest 5)
+- Statistics
 
-如发现不一致（如索引缺失、孤立RC），在末尾提示并建议执行 `/dd-check`。
+If inconsistencies found (e.g., missing index, orphan RC), show notice at the end and suggest running `/dd-check`.

@@ -1,32 +1,32 @@
-# /dd-drop - 放弃变更
+# /dd-drop - Abandon Change
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
 /dd-drop <CR-id>
-/dd-drop <CR-id> "<原因>"
+/dd-drop <CR-id> "<reason>"
 ```
 
-## 适用状态
+## Applicable Status
 
-| 状态 | 处理 |
-|------|------|
-| draft | 直接放弃 |
-| confirmed | 删除 RC 和 spec，然后放弃 |
-| done | 不可放弃（已归档，用 git revert） |
+| Status | Handling |
+|--------|----------|
+| draft | Drop directly |
+| confirmed | Delete RC and spec, then drop |
+| done | Cannot drop (already archived, use `git revert`) |
 
-## 执行步骤
+## Execution Steps
 
-1. **加载 CR**: 验证状态
-2. **确认放弃**: 显示将执行的操作，等待确认
-3. **删除 RC 文件**: `features/*.rc-{id}.md`（如 confirmed）
-4. **删除 spec 文件**: `specs/CR-{id}.*.md`（如存在）
-5. **更新 CR 状态**: status → `dropped`, 添加 `dropped: {date}`, `drop_reason`
-6. **移动 CR**: 到 `changes/dropped/`
-7. **更新索引**: `_index.yaml`
+1. **Load CR**: Validate status
+2. **Confirm drop**: Display operations to be performed, wait for confirmation
+3. **Delete RC files**: `features/*.rc-{id}.md` (if confirmed)
+4. **Delete spec files**: `specs/CR-{id}.*.md` (if exist)
+5. **Update CR status**: status → `dropped`, add `dropped: {date}`, `drop_reason`
+6. **Move CR**: to `changes/dropped/`
+7. **Update index**: `_index.yaml`
 
-## 恢复已放弃的变更
+## Recover Dropped Change
 
-手动将文件从 `changes/dropped/` 移回 `changes/`，修改 status 为 `draft`，移除 dropped 相关字段。
+Manually move file from `changes/dropped/` back to `changes/`, change status to `draft`, remove dropped-related fields.

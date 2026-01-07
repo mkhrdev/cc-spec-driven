@@ -1,51 +1,51 @@
-# /dd-spec-dev - 生成开发规格
+# /dd-spec-dev - Generate Development Spec
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
 /dd-spec-dev <CR-id>
 ```
 
-## 前置条件
+## Prerequisites
 
-- 状态必须是 `confirmed`
-- 类型为 `implemented` 时跳过
+- Status must be `confirmed`
+- Skip when type is `implemented`
 
-## 执行步骤
+## Execution Steps
 
-1. **加载 CR**: 验证状态和类型
-2. **加载上下文**:
-   - 涉及的 feature.md（或 RC）、tech.md（或 RC）
-   - project.yaml 的 repos 配置
-3. **读取外部仓库信息**: README.md、配置文件（仓库不可达时标注"待确认"）
-4. **处理 tech.md 待决策项**: 交互确认方案选择
-5. **生成 spec**: `specs/CR-{id}.dev.md`
-6. **更新索引**: `specs/_index.yaml`
+1. **Load CR**: Validate status and type
+2. **Load context**:
+   - Involved feature.md (or RC), tech.md (or RC)
+   - repos config from project.yaml
+3. **Read external repo info**: README.md, config files (mark as "pending confirmation" if repo unreachable)
+4. **Process tech.md open decisions**: Interactive confirmation for option selection
+5. **Generate spec**: `specs/CR-{id}.dev.md`
+6. **Update index**: `specs/_index.yaml`
 
-## Spec 结构
+## Spec Structure
 
 ```markdown
-# 开发规格: CR-{id}
+# Development Spec: CR-{id}
 
-## 概述
-## 前置条件
-## 技术约束
-## 技术决策
-## 实现任务
-### Task N: {任务名}
-**目标**: {用户故事}
-**上下文**: 相关文件、接口
-**验收条件**: [ ] 条件
-**实现提示**: 复用xxx
+## Overview
+## Prerequisites
+## Technical Constraints
+## Technical Decisions
+## Implementation Tasks
+### Task N: {task-name}
+**Goal**: {user story}
+**Context**: Related files, interfaces
+**Acceptance criteria**: [ ] criteria
+**Implementation hints**: Reuse xxx
 
-## 实现顺序
-## 参考资料
+## Implementation Order
+## References
 ```
 
-## 设计原则
+## Design Principles
 
-- **自包含**: 看 spec 就能开发
-- **可执行**: 验收条件可转测试
-- **有序性**: 任务依赖清晰
+- **Self-contained**: Can develop just by reading spec
+- **Executable**: Acceptance criteria can be converted to tests
+- **Ordered**: Task dependencies are clear

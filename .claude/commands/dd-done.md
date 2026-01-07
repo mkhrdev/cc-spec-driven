@@ -1,49 +1,49 @@
-# /dd-done - 标记变更完成
+# /dd-done - Mark Change Complete
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
 /dd-done <CR-id>
 ```
 
-每次只处理单个 CR。
+Process single CR at a time.
 
-## 前置条件
+## Prerequisites
 
-状态必须是 `confirmed`，否则提示先执行 `/dd-confirm`。
-
----
-
-## 执行步骤
-
-1. **加载 CR**: 验证状态
-2. **合并 RC 到正式文档**:
-   - 查找 `features/*.rc-{id}.md` 和 `*.tech.rc-{id}.md`
-   - 用 RC 内容替换正式文档（或重命名为正式文档）
-   - 移除 `rc_for` 字段
-   - 更新页脚为 `_更新: {date} | CR-{id}_`
-3. **删除 RC 文件**
-4. **更新 `_deps.yaml`**: 从合并后的文档重建依赖图
-5. **更新 CR 状态**: status → `done`, 添加 `completed: {date}`
-6. **归档**: 移动 CR 到 `changes/archive/`
-7. **归档 spec**: 移动 `specs/CR-{id}.*.md` 到 `specs/archive/`（如存在）
-8. **更新索引**: `changes/_index.yaml`, `specs/_index.yaml`
+Status must be `confirmed`, otherwise prompt to run `/dd-confirm` first.
 
 ---
 
-## _deps.yaml 维护
+## Execution Steps
 
-从所有正式文档的 frontmatter 重建 `features/_deps.yaml`:
+1. **Load CR**: Validate status
+2. **Merge RC to formal documents**:
+   - Find all `features/*.rc-{id}.md` and `*.tech.rc-{id}.md`
+   - Replace formal documents with RC content (or rename to formal document)
+   - Remove `rc_for` field
+   - Update footer to `_Updated: {date} | CR-{id}_`
+3. **Delete RC files**
+4. **Update `_deps.yaml`**: Rebuild dependency graph from merged documents
+5. **Update CR status**: status → `done`, add `completed: {date}`
+6. **Archive**: Move CR to `changes/archive/`
+7. **Archive specs**: Move `specs/CR-{id}.*.md` to `specs/archive/` (if exist)
+8. **Update indices**: `changes/_index.yaml`, `specs/_index.yaml`
+
+---
+
+## _deps.yaml Maintenance
+
+Rebuild `features/_deps.yaml` from all formal documents' frontmatter:
 
 ```yaml
 updated: {date}
 
 graph:
   {feature}:
-    deps: [从 feature.md 的 deps 字段]
-    affects: [从 feature.md 的 affects 字段]
+    deps: [from feature.md deps field]
+    affects: [from feature.md affects field]
 ```
 
-确保双向一致性（A.deps 包含 B → B.affects 应包含 A）。
+Ensure bidirectional consistency (A.deps contains B → B.affects should contain A).

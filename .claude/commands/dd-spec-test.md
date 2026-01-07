@@ -1,53 +1,53 @@
-# /dd-spec-test - 生成测试规格
+# /dd-spec-test - Generate Test Spec
 
-> 公共定义见 `_base.md`
+> Common definitions in `_base.md`
 
-## 用法
+## Usage
 
 ```
 /dd-spec-test <CR-id>
 /dd-spec-test --init
 ```
 
-## 前置条件
+## Prerequisites
 
-- 状态必须是 `confirmed`
-- `--init` 例外，用于项目初始化
+- Status must be `confirmed`
+- `--init` is exception, used for project initialization
 
-## 执行步骤
+## Execution Steps
 
-1. **加载 CR**: 验证状态
-2. **加载上下文**: 涉及的 feature.md（或 RC），重点读取"边界"章节
-3. **生成测试用例**: Given-When-Then 格式
-4. **生成 spec**: `specs/CR-{id}.test.md`
-5. **更新索引**: `specs/_index.yaml`
+1. **Load CR**: Validate status
+2. **Load context**: Involved feature.md (or RC), focus on "Boundaries" section
+3. **Generate test cases**: Given-When-Then format
+4. **Generate spec**: `specs/CR-{id}.test.md`
+5. **Update index**: `specs/_index.yaml`
 
-## Spec 结构
+## Spec Structure
 
 ```markdown
-# 测试规格: CR-{id}
+# Test Spec: CR-{id}
 
-## 测试范围
-## 测试用例
-### TC-NNN: {用例名}
-**优先级**: P0|P1|P2
-**类型**: E2E|API|Unit
+## Test Scope
+## Test Cases
+### TC-NNN: {case-name}
+**Priority**: P0|P1|P2
+**Type**: E2E|API|Unit
 **Given**: ...
 **When**: ...
 **Then**: ...
 
-## 边界测试
-## 回归检查点
+## Boundary Testing
+## Regression Checkpoints
 ```
 
-## 优先级与类型
+## Priority and Type
 
-| 优先级 | 含义 | | 类型 | 含义 |
-|--------|------|-|------|------|
-| P0 | 核心流程，阻断发布 | | E2E | 端到端 |
-| P1 | 重要功能，建议修复 | | API | 接口测试 |
-| P2 | 边缘场景，低优先级 | | Unit | 单元测试 |
+| Priority | Meaning | | Type | Meaning |
+|----------|---------|---|------|---------|
+| P0 | Core flow, blocks release | | E2E | End-to-end |
+| P1 | Important feature, recommended fix | | API | Interface test |
+| P2 | Edge case, low priority | | Unit | Unit test |
 
-## --init 模式
+## --init Mode
 
-基于所有现有 feature.md 生成完整测试规格 `specs/INIT.test.md`。
+Generate complete test spec for all existing feature.md files as `specs/INIT.test.md`.
