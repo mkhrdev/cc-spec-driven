@@ -48,12 +48,19 @@ spec/
         │   ├── CR-{id}.md        # In-progress changes
         │   ├── archive/          # Completed changes
         │   └── dropped/          # Dropped changes
-        └── specs/                # Spec files
-            ├── _index.yaml       # Spec index
-            ├── CR-{id}.dev.md    # Development spec
-            ├── CR-{id}.test.md   # Test spec
-            ├── archive/          # Completed specs
-            └── dropped/          # Dropped specs
+        ├── specs/                # Spec files
+        │   ├── _index.yaml       # Spec index
+        │   ├── CR-{id}.dev.md    # Development spec
+        │   ├── CR-{id}.test.md   # Test spec
+        │   ├── archive/          # Completed specs
+        │   └── dropped/          # Dropped specs
+        └── cases/                # Test cases
+            ├── _index.yaml       # Cases index
+            ├── config.yaml       # Maestro config
+            ├── CR-{id}/          # In-progress cases
+            ├── blessed/          # Reusable cases
+            ├── archive/          # Completed cases
+            └── dropped/          # Dropped cases
 ```
 
 ---
@@ -79,6 +86,7 @@ spec/
 | `/dd-rebase` | Handle branch merge conflicts |
 | `/dd-spec-dev` | Generate dev spec (requires confirmed) |
 | `/dd-spec-test` | Generate test spec (requires confirmed) |
+| `/dd-test-case` | Generate test cases (Maestro YAML) |
 
 ### Command Architecture
 

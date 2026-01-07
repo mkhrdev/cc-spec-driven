@@ -12,9 +12,7 @@
 
 </div>
 
-仕様駆動・ドキュメントファーストの要件管理フレームワーク（マルチプロダクト対応）
-
-**コアポジショニング**：要件ドキュメントの管理、変更の追跡、Specの出力を行い、下流ツール（Kiro、Cursor、OpenCode）が高品質なSpecに基づいてコードを生成し、E2Eテストを完了できるようにします。
+要件ドキュメントの管理、変更の追跡、Specの出力を行い、下流ツールが高品質なSpecに基づいてコード生成とE2Eテストを実行できるようにします。
 
 ---
 
@@ -26,6 +24,7 @@
 | ドキュメントとコードが乖離 | ドキュメントが唯一の信頼源 |
 | 手動で整合性を確認 | AIが検証と更新を支援 |
 | 要件変更の追跡が困難 | CR-IDで全工程を追跡 |
+| テストケースを繰り返し作成 | blessed機構で再利用 |
 
 ## 🎯 コアコンセプト
 
@@ -54,6 +53,11 @@
 ### 並行作業フレンドリー
 - gitブランチで並行作業を実現、各ブランチに独立したRC、並行ボトルネックなし
 - rebase skillでマージ、自然言語でのマージルールが明確
+
+### E2Eテストケースの再利用
+- **blessed機構**: 検証済みケースを再利用可能バージョンに昇格
+- **runFlow参照**: 依存機能のテストケースを自動再利用
+- **バージョン追跡**: CR-id命名で複数バージョン共存をサポート
 
 ---
 
@@ -96,6 +100,7 @@
 | `/dd-rebase` | ブランチ競合の処理 |
 | `/dd-spec-dev` | 開発Specを生成 |
 | `/dd-spec-test` | テストSpecを生成 |
+| `/dd-test-case` | テストケースを生成 (Maestro) |
 
 > 完全なドキュメント：[CLAUDE.md - Skills](CLAUDE.md#skills)
 
@@ -113,38 +118,44 @@ spec/
         ├── project.yaml          # プロダクト設定 (next_cr_id含む)
         ├── glossary.yaml         # 用語集 (人間が管理)
         ├── overview.md           # プロダクト概要
-        │
         ├── features/             # 機能ドキュメント
+        │   ├── _deps.yaml        # 依存グラフインデックス (自動管理)
         │   ├── {feature}.md      # ビジネス要件 (正式版)
-        │   └── {feature}.rc-{id}.md  # ビジネス要件 (CRプレビュー)
-        │
+        │   ├── {feature}.rc-{id}.md    # ビジネス要件 (CRプレビュー)
+        │   ├── {feature}.tech.md       # 技術共識 (正式版)
+        │   └── {feature}.tech.rc-{id}.md # 技術共識 (CRプレビュー)
         ├── changes/              # 変更記録
         │   ├── _index.yaml       # 変更インデックス
         │   ├── CR-{id}.md        # 進行中の変更
         │   ├── archive/          # 完了した変更
         │   └── dropped/          # 破棄された変更
-        │
-        └── specs/                # 仕様ファイル
-            ├── CR-{id}.dev.md    # 開発仕様
-            ├── CR-{id}.test.md   # テスト仕様
-            └── archive/          # 完了した仕様
+        ├── specs/                # 仕様ファイル
+        │   ├── _index.yaml       # 仕様インデックス
+        │   ├── CR-{id}.dev.md    # 開発仕様
+        │   ├── CR-{id}.test.md   # テスト仕様
+        │   ├── archive/          # 完了した仕様
+        │   └── dropped/          # 破棄された仕様
+        └── cases/                # テストケース
+            ├── _index.yaml       # ケースインデックス
+            ├── config.yaml       # Maestro設定
+            ├── CR-{id}/          # 進行中のケース
+            ├── blessed/          # 再利用可能ケース
+            ├── archive/          # 完了したケース
+            └── dropped/          # 破棄されたケース
 ```
 
 ---
 
 ## ロードマップ
 
-### Phase 1: 基盤整備
-- [ ] `/dd-spec-test` でGherkin形式出力
-- [ ] E2E統合ドキュメント（Maestro）
+### Phase 1: E2Eテストループ ✅
+- [x] `/dd-spec-test` でGherkin形式出力
+- [x] `/dd-test-case` でMaestro YAML生成
+- [x] blessedバージョン命名と参照管理
 
 ### Phase 2: VSCode拡張機能
 - [ ] CRステータスパネル
 - [ ] 依存グラフの可視化
-
-### Phase 3: E2Eテストループ
-- [ ] `/dd-spec-e2e` でMaestro YAML生成
-- [ ] 完全なE2E統合サンプル
 
 ---
 

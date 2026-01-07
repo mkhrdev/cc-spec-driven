@@ -8,11 +8,21 @@ All check results **output to console only**, no file generation, non-blocking.
 
 ```
 /dd-check [product]
-/dd-check [product] --type=<check-type>
-/dd-check [product] --type=all
+/dd-check [product] --scope=<scope>
+/dd-check [product] --scope=<scope> --type=<check-type>
 ```
 
-## Check Types
+## --scope Parameter
+
+| Value | Description |
+|-------|-------------|
+| `docs` | Check requirement documents only (default) |
+| `cases` | Check test cases only |
+| `all` | Check everything |
+
+## Check Types (--type)
+
+### docs Scope
 
 | Type | Check Content |
 |------|---------------|
@@ -21,6 +31,14 @@ All check results **output to console only**, no file generation, non-blocking.
 | deps | Dependencies (existence, cycles, bidirectional consistency, _deps.yaml sync) |
 | refs | References (CR↔feature, orphan documents, RC↔CR) |
 | status | Status consistency (long-term draft, index sync) |
+
+### cases Scope
+
+| Type | Check Content |
+|------|---------------|
+| runflow | runFlow path validity (whether referenced files exist) |
+| index | Index consistency (refs/referenced_by vs actual files) |
+| blessed | blessed version check (multiple version notification) |
 
 ---
 
@@ -54,6 +72,8 @@ Statistics: {n} features | {m} tech docs | {p} in-progress | {q} completed
 
 Check completed: {x} critical | {y} warning | {z} info
 ```
+
+---
 
 ## Design Principles
 

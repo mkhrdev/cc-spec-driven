@@ -12,13 +12,11 @@
 
 </div>
 
-规格驱动文档先行的文档管理框架，用于管理多产品的需求文档
-
-**核心定位**：管理需求文档、追踪变更、输出规格，让下游工具（Kiro、Cursor、OpenCode）基于高质量 Spec 执行代码生成，并完成e2e测试。
+管理需求文档、追踪变更、输出规格，让下游工具基于高质量 Spec 执行代码生成，并完成e2e测试。
 
 ---
 
-## ✨ 为什么选择这个框架
+## ✨ 为什么这个
 
 | 传统方式 | Spec-Driven |
 |---------|-------------|
@@ -26,6 +24,7 @@
 | 文档和代码脱节 | 文档是唯一真相源 |
 | 手动维护一致性 | AI辅助检查和更新 |
 | 需求变更难追踪 | CR-ID 全程追踪 |
+| 测试用例重复编写 | blessed 机制复用 |
 
 ## 🎯 核心理念
 
@@ -54,6 +53,11 @@
 ### 并行工作友好
 - git 分支实现并发，每分支独立 RC，不存在并行瓶颈
 - 合并时使用rebase skill，自然语言合并规则清晰
+
+### E2E 测试用例复用
+- **blessed 机制**: 已验证的用例提升为可复用版本
+- **runFlow 引用**: 自动复用依赖功能的测试用例
+- **版本追踪**: 带 CR-id 命名，支持多版本共存
 
 ---
 
@@ -96,6 +100,7 @@
 | `/dd-rebase` | 处理分支冲突 |
 | `/dd-spec-dev` | 生成开发规格 |
 | `/dd-spec-test` | 生成测试规格 |
+| `/dd-test-case` | 生成测试用例 (Maestro) |
 
 > 完整说明：[CLAUDE.md - Skills](CLAUDE.md#skills)
 
@@ -113,38 +118,44 @@ spec/
         ├── project.yaml          # 产品配置 (含 next_cr_id)
         ├── glossary.yaml         # 术语表 (人类维护)
         ├── overview.md           # 产品全景
-        │
         ├── features/             # 功能文档
+        │   ├── _deps.yaml        # 依赖图索引 (自动维护)
         │   ├── {feature}.md      # 业务需求 (正式)
-        │   └── {feature}.rc-{id}.md  # 业务需求 (CR预览版)
-        │
+        │   ├── {feature}.rc-{id}.md    # 业务需求 (CR预览版)
+        │   ├── {feature}.tech.md       # 技术共识 (正式)
+        │   └── {feature}.tech.rc-{id}.md # 技术共识 (CR预览版)
         ├── changes/              # 变更记录
         │   ├── _index.yaml       # 变更索引
         │   ├── CR-{id}.md        # 进行中的变更
         │   ├── archive/          # 已完成的变更
         │   └── dropped/          # 已放弃的变更
-        │
-        └── specs/                # 规格文件
-            ├── CR-{id}.dev.md    # 开发规格
-            ├── CR-{id}.test.md   # 测试规格
-            └── archive/          # 已完成的规格
+        ├── specs/                # 规格文件
+        │   ├── _index.yaml       # 规格索引
+        │   ├── CR-{id}.dev.md    # 开发规格
+        │   ├── CR-{id}.test.md   # 测试规格
+        │   ├── archive/          # 已完成的规格
+        │   └── dropped/          # 已放弃的规格
+        └── cases/                # 测试用例
+            ├── _index.yaml       # 用例索引
+            ├── config.yaml       # Maestro 配置
+            ├── CR-{id}/          # 进行中的用例
+            ├── blessed/          # 可复用用例
+            ├── archive/          # 已完成的用例
+            └── dropped/          # 已放弃的用例
 ```
 
 ---
 
 ## 路线图
 
-### Phase 1: 补全
-- [ ] `/dd-spec-test` 输出 Gherkin 格式
-- [ ] E2E 集成文档（Maestro）
+### Phase 1: E2E 测试闭环 ✅
+- [x] `/dd-spec-test` 输出 Gherkin 格式
+- [x] `/dd-test-case` 生成 Maestro YAML
+- [x] blessed 版本化命名与引用管理
 
 ### Phase 2: VSCode 插件
 - [ ] CR 状态面板
 - [ ] 依赖图可视化
-
-### Phase 3: E2E 测试闭环
-- [ ] `/dd-spec-e2e` 生成 Maestro YAML
-- [ ] 完整 E2E 集成示例
 
 ---
 

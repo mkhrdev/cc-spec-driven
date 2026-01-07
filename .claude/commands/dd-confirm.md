@@ -6,7 +6,19 @@
 
 ```
 /dd-confirm <CR-id>
+/dd-confirm <CR-id> --dry-run
 ```
+
+## Parameter Description
+
+### --dry-run
+
+Preview mode, only output operations to be executed without actually creating or modifying files.
+
+**Output content**:
+- RC files to be generated
+- Dependency changes summary
+- Out-of-scope dependency detection results (if any)
 
 ## Prerequisites
 

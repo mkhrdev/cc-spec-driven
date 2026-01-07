@@ -12,13 +12,11 @@
 
 </div>
 
-A spec-driven, document-first documentation management framework for managing multi-product requirement documents.
-
-**Core Positioning**: Manage requirement documents, track changes, and output specs, enabling downstream tools (Kiro, Cursor, OpenCode) to generate code based on high-quality specs and complete E2E testing.
+Manage requirement documents, track changes, output specs — enabling downstream tools to generate code based on high-quality specs and complete E2E testing.
 
 ---
 
-## ✨ Why Choose This Framework
+## ✨ Why This
 
 | Traditional Approach | Spec-Driven |
 |---------------------|-------------|
@@ -26,6 +24,7 @@ A spec-driven, document-first documentation management framework for managing mu
 | Docs and code disconnect | Documents are single source of truth |
 | Manual consistency maintenance | AI-assisted checking and updates |
 | Hard to track requirement changes | CR-ID tracking throughout |
+| Rewrite test cases repeatedly | blessed mechanism for reuse |
 
 ## 🎯 Core Principles
 
@@ -54,6 +53,11 @@ A spec-driven, document-first documentation management framework for managing mu
 ### Parallel Work Friendly
 - Git branches for concurrency, independent RC per branch, no parallel bottlenecks
 - Use rebase skill for merging, natural language merge rules are clear
+
+### E2E Test Case Reuse
+- **blessed mechanism**: Promote verified cases to reusable versions
+- **runFlow reference**: Auto-reuse test cases from dependency features
+- **Version tracking**: CR-id naming, supports multiple versions coexistence
 
 ---
 
@@ -96,6 +100,7 @@ A spec-driven, document-first documentation management framework for managing mu
 | `/dd-rebase` | Handle branch conflicts |
 | `/dd-spec-dev` | Generate dev spec |
 | `/dd-spec-test` | Generate test spec |
+| `/dd-test-case` | Generate test cases (Maestro) |
 
 > Full documentation: [CLAUDE.md - Skills](CLAUDE.md#skills)
 
@@ -113,38 +118,44 @@ spec/
         ├── project.yaml          # Product config (includes next_cr_id)
         ├── glossary.yaml         # Glossary (human-maintained)
         ├── overview.md           # Product overview
-        │
         ├── features/             # Feature documents
+        │   ├── _deps.yaml        # Dependency graph index (auto-maintained)
         │   ├── {feature}.md      # Business requirements (formal)
-        │   └── {feature}.rc-{id}.md  # Business requirements (CR preview)
-        │
+        │   ├── {feature}.rc-{id}.md    # Business requirements (CR preview)
+        │   ├── {feature}.tech.md       # Technical consensus (formal)
+        │   └── {feature}.tech.rc-{id}.md # Technical consensus (CR preview)
         ├── changes/              # Change records
         │   ├── _index.yaml       # Change index
         │   ├── CR-{id}.md        # In-progress changes
         │   ├── archive/          # Completed changes
         │   └── dropped/          # Dropped changes
-        │
-        └── specs/                # Spec files
-            ├── CR-{id}.dev.md    # Development spec
-            ├── CR-{id}.test.md   # Test spec
-            └── archive/          # Completed specs
+        ├── specs/                # Spec files
+        │   ├── _index.yaml       # Spec index
+        │   ├── CR-{id}.dev.md    # Development spec
+        │   ├── CR-{id}.test.md   # Test spec
+        │   ├── archive/          # Completed specs
+        │   └── dropped/          # Dropped specs
+        └── cases/                # Test cases
+            ├── _index.yaml       # Cases index
+            ├── config.yaml       # Maestro config
+            ├── CR-{id}/          # In-progress cases
+            ├── blessed/          # Reusable cases
+            ├── archive/          # Completed cases
+            └── dropped/          # Dropped cases
 ```
 
 ---
 
 ## Roadmap
 
-### Phase 1: Foundation
-- [ ] `/dd-spec-test` output in Gherkin format
-- [ ] E2E integration docs (Maestro)
+### Phase 1: E2E Testing Loop ✅
+- [x] `/dd-spec-test` output in Gherkin format
+- [x] `/dd-test-case` generate Maestro YAML
+- [x] blessed versioned naming and reference management
 
 ### Phase 2: VSCode Extension
 - [ ] CR status panel
 - [ ] Dependency graph visualization
-
-### Phase 3: E2E Testing Loop
-- [ ] `/dd-spec-e2e` generate Maestro YAML
-- [ ] Complete E2E integration example
 
 ---
 

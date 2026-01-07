@@ -27,6 +27,14 @@ Level 3: Detailed Content
 **Level 2 trigger**: Features in deps/affects, features in CR impact scope
 **Level 3 trigger**: Need to modify specific sections, need to understand technical details
 
+**Additional loading for test case generation**:
+- `specs/CR-{id}.test.md` (main input)
+- `changes/CR-{id}.md` (impact scope)
+- `features/{feature}.md` (deps field)
+- `cases/_index.yaml` (existing cases for runFlow)
+- `cases/config.yaml`
+- `cases/ui-mapping.yaml` (if exists)
+
 ---
 
 ## State Transitions
@@ -106,6 +114,15 @@ Sections: `## Original Input` `## Clarification Records` `## Change Content` `##
 - {feature}.affects: +[added] -[removed]
 ```
 
+### {feature}.{platform}.yaml (Test Cases)
+
+Maestro YAML format. Contains `appId`, `name`, `tags` (CR-id, feature, priority), `env`.
+Organized by TC with Given/When/Then steps. Platform suffixes: `.ios.yaml`, `.android.yaml`, `.web.yaml`
+
+### REPORT.md (Test Cases Report)
+
+Generated report with Summary table (platform/files/scenarios/regression/TODO), Dependencies, and Files list.
+
 ---
 
 ## Index File Formats
@@ -133,6 +150,27 @@ specs:
     dev: true | false
     test: true | false
     status: active | archived
+```
+
+### cases/_index.yaml
+
+```yaml
+cases:
+  - cr: CR-001
+    status: active | done | dropped
+    feature: {feature}
+    platforms: [ios, android, web]
+    refs: []
+    referenced_by: [CR-002]
+    files: [{path, platform, scenarios, has_regression}]
+```
+
+### cases/config.yaml
+
+```yaml
+appId: com.example.app
+platforms: [ios, android, web]
+flows: ["CR-*/**/*.yaml", "blessed/*.yaml"]
 ```
 
 ### features/_deps.yaml
@@ -174,12 +212,22 @@ products/{product}/
 │   ├── CR-{id}.md
 │   ├── archive/
 │   └── dropped/
-└── specs/
-    ├── _index.yaml
-    ├── CR-{id}.dev.md
-    ├── CR-{id}.test.md
-    ├── archive/
-    └── dropped/
+├── specs/
+│   ├── _index.yaml
+│   ├── CR-{id}.dev.md
+│   ├── CR-{id}.test.md
+│   ├── archive/
+│   └── dropped/
+└── cases/                        # Test Cases
+    ├── _index.yaml               # Cases index
+    ├── config.yaml               # Maestro config
+    ├── ui-mapping.yaml           # UI mapping (optional)
+    ├── CR-{id}/                  # In-progress CR
+    │   ├── REPORT.md             # Generation report
+    │   └── {feature}.{platform}.yaml
+    ├── blessed/                  # Reusable cases (versioned: {feature}.{cr-id}.{platform}.yaml)
+    ├── archive/                  # Completed
+    └── dropped/                  # Abandoned
 ```
 
 ---
@@ -271,3 +319,13 @@ Impact Analysis:
 **Calculation**:
 - Direct impact: All features in _deps.yaml whose deps contain target feature
 - Indirect impact: Features that depend on directly impacted features (show one level only)
+
+---
+
+## blessed/ Naming Convention
+
+File naming: `{feature}.{cr-id}.{platform}.yaml` (e.g., `login.CR-001.ios.yaml`)
+
+Search priority: blessed/ by CR-id descending for latest → CR-*/ other in-progress cases
+
+Add source comment when promoting: `# Promoted from: CR-{id} | {date}`

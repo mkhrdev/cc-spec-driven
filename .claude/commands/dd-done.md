@@ -6,9 +6,22 @@
 
 ```
 /dd-done <CR-id>
+/dd-done <CR-id> --dry-run
 ```
 
 Process single CR at a time.
+
+## Parameter Description
+
+### --dry-run
+
+Preview mode, only output operations to be executed without actually modifying files.
+
+**Output content**:
+- RC files to be merged
+- Files to be archived
+- Cases to be promoted to blessed/ (if has referenced_by)
+- Index files to be updated
 
 ## Prerequisites
 
@@ -29,7 +42,13 @@ Status must be `confirmed`, otherwise prompt to run `/dd-confirm` first.
 5. **Update CR status**: status → `done`, add `completed: {date}`
 6. **Archive**: Move CR to `changes/archive/`
 7. **Archive specs**: Move `specs/CR-{id}.*.md` to `specs/archive/` (if exist)
-8. **Update indices**: `changes/_index.yaml`, `specs/_index.yaml`
+8. **Archive test cases**: Move `cases/CR-{id}/` to `cases/archive/CR-{id}/` (if exist)
+9. **Promote reusable cases**: If CR has `referenced_by` in `cases/_index.yaml`:
+   - Copy cases to `cases/blessed/` with versioned naming:
+   - Format: `{feature}.{cr-id}.{platform}.yaml`
+   - e.g. `archive/CR-001/login.ios.yaml` → `blessed/login.CR-001.ios.yaml`
+   - Add source comment in file header: `# Promoted from: CR-{id} | {date}`
+10. **Update indices**: `changes/_index.yaml`, `specs/_index.yaml`, `cases/_index.yaml`
 
 ---
 
