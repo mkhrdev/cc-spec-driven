@@ -10,45 +10,15 @@
 
 [English](https://github.com/mkhrdev/cc-spec-driven/blob/main/README.md) · [中文](https://github.com/mkhrdev/cc-spec-driven/blob/main/docs/translate/README.zh.md) · [日本語](https://github.com/mkhrdev/cc-spec-driven/blob/main/docs/translate/README.ja.md)
 
----
-
-*A spec-driven, document-first documentation management framework for managing multi-product requirement documents*
-
 </div>
 
-## Positioning: Upstream of AI Development Workflow
+A spec-driven, document-first documentation management framework for managing multi-product requirement documents.
 
-```
-┌─────────────────────────────────────────┐
-│  This Framework (Orchestrator)          │
-│  Document asset management → Spec gen   │
-└─────────────────────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────┐
-│  Kiro / Cursor / OpenCode (Worker)      │
-│  Execute code generation based on Spec  │
-└─────────────────────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────┐
-│  Maestro / Playwright (E2E)             │
-│  Execute validation based on Test Spec  │
-└─────────────────────────────────────────┘
-```
+**Core Positioning**: Manage requirement documents, track changes, and output specs, enabling downstream tools (Kiro, Cursor, OpenCode) to generate code based on high-quality specs and complete E2E testing.
 
-## Why Choose This Framework?
+---
 
-### Comparison with Alternatives
-
-| Feature | This Framework | GitHub Spec Kit | AWS Kiro | Cursor Plan |
-|---------|---------------|-----------------|----------|-------------|
-| **RC Preview Mechanism** | ✅ Unique | ❌ | ❌ | ❌ |
-| **Bidirectional Dependency Tracking** | ✅ Automatic | ❌ Manual | ❌ | ❌ |
-| **Context Loading Layers** | ✅ Optimized | ❌ | ❌ | ❌ |
-| **Multi-product Management** | ✅ | ❌ Single project | ❌ Single project | ❌ Single task |
-| **CR Lifecycle Management** | ✅ Complete | ❌ | ❌ | ❌ |
-| **Change Tracking** | ✅ CR-ID | ❌ | ❌ Regenerate | ❌ |
-
-### Unique Value
+## ✨ Why Choose This Framework
 
 | Traditional Approach | Spec-Driven |
 |---------------------|-------------|
@@ -57,7 +27,7 @@
 | Manual consistency maintenance | AI-assisted checking and updates |
 | Hard to track requirement changes | CR-ID tracking throughout |
 
-## Core Principles
+## 🎯 Core Principles
 
 - **Change-Driven** - No need to write all docs upfront, enrich incrementally with changes
 - **AI-Assisted** - Natural language input, AI organizes into unified format
@@ -82,9 +52,10 @@
 - **Dependency Scope Protection**: Prevent overlooking affected documents
 
 ### Parallel Work Friendly
-- Git branches for concurrency, independent RC per branch
-- Use rebase for merging, clear rules
-- No parallel bottlenecks
+- Git branches for concurrency, independent RC per branch, no parallel bottlenecks
+- Use rebase skill for merging, natural language merge rules are clear
+
+---
 
 ## Quick Start
 
@@ -92,19 +63,43 @@
 # 1. Initialize product
 /dd-init my-product
 
-# 2. Describe product overview
-/dd-update "We have user management, orders, and payment modules..."
+# 2. Create change (natural language description)
+/dd-update "Add user login feature, supporting email and phone number"
 
-# 3. Confirm change
+# 3. Confirm and generate RC preview
 /dd-confirm CR-001
 
-# 4. (Optional) Generate specs
-/dd-spec-dev CR-001
-/dd-spec-test CR-001
-
-# 5. Complete
+# 4. Merge to official docs
 /dd-done CR-001
 ```
+
+---
+
+## Command Overview
+
+### Core Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/dd-init` | Initialize product |
+| `/dd-update` | Create/modify change |
+| `/dd-confirm` | Confirm change, generate RC preview |
+| `/dd-done` | Merge RC to official docs |
+| `/dd-status` | View status |
+| `/dd-drop` | Abandon change |
+
+### Auxiliary Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/dd-check` | Consistency check |
+| `/dd-rebase` | Handle branch conflicts |
+| `/dd-spec-dev` | Generate dev spec |
+| `/dd-spec-test` | Generate test spec |
+
+> Full documentation: [CLAUDE.md - Skills](CLAUDE.md#skills)
+
+---
 
 ## Directory Structure
 
@@ -121,9 +116,7 @@ spec/
         │
         ├── features/             # Feature documents
         │   ├── {feature}.md      # Business requirements (formal)
-        │   ├── {feature}.rc-{id}.md    # Business requirements (CR preview)
-        │   ├── {feature}.tech.md       # Technical consensus (formal)
-        │   └── {feature}.tech.rc-{id}.md # Technical consensus (CR preview)
+        │   └── {feature}.rc-{id}.md  # Business requirements (CR preview)
         │
         ├── changes/              # Change records
         │   ├── _index.yaml       # Change index
@@ -132,101 +125,53 @@ spec/
         │   └── dropped/          # Dropped changes
         │
         └── specs/                # Spec files
-            ├── _index.yaml       # Spec index
             ├── CR-{id}.dev.md    # Development spec
             ├── CR-{id}.test.md   # Test spec
-            ├── archive/          # Completed specs
-            └── dropped/          # Dropped specs
+            └── archive/          # Completed specs
 ```
 
-## Skills
+---
 
-> **dd** = **D**ocument-**D**riven, abbreviation of Spec-Driven **D**ocument-First.
-> All skills prefixed with `/dd-` to reflect the "document-driven" core philosophy.
+## Roadmap
 
-### Core Skills
+### Phase 1: Foundation
+- [ ] `/dd-spec-test` output in Gherkin format
+- [ ] E2E integration docs (Maestro)
 
-| Skill | Purpose | Description |
-|-------|---------|-------------|
-| `/dd-init` | Initialize product | Create complete directory structure |
-| `/dd-status` | View status | Product/change/RC/spec statistics |
-| `/dd-update` | Create/modify change | Natural language input, confirmed can rollback |
-| `/dd-confirm` | Confirm change | Generate RC preview documents |
-| `/dd-done` | Mark complete | Merge RC to formal documents, archive |
-| `/dd-drop` | Abandon change | Delete RC and spec, move to dropped |
+### Phase 2: VSCode Extension
+- [ ] CR status panel
+- [ ] Dependency graph visualization
 
-### Auxiliary Skills
+### Phase 3: E2E Testing Loop
+- [ ] `/dd-spec-e2e` generate Maestro YAML
+- [ ] Complete E2E integration example
 
-| Skill | Purpose | Description |
-|-------|---------|-------------|
-| `/dd-check` | Consistency check | Console output only, non-blocking |
-| `/dd-rebase` | Handle branch conflicts | Intent-based change reapplication |
-| `/dd-spec-dev` | Generate dev spec | Requires confirmed status |
-| `/dd-spec-test` | Generate test spec | Requires confirmed, supports --init |
+---
 
-## Workflow Details
+## Relationship with Other Tools
 
-### State Transitions
+This framework is **upstream** of AI development toolchains, not a replacement:
 
-```
-draft → confirmed → done (archived)
-  │         │
-  └────┬────┘
-       ↓
-    dropped
-```
+| Tool | Positioning | Relationship with This Framework |
+|------|-------------|----------------------------------|
+| AWS Kiro | Single-project dev assistant | This framework outputs Spec, Kiro generates code |
+| Cursor | AI programming IDE | This framework outputs Spec, Cursor implements |
+| GitHub Spec Kit | Spec format standard | This framework manages Spec lifecycle |
 
-### Standard Flow
+### Unique Value
 
-| Step | Command | Output | Description |
-|------|---------|--------|-------------|
-| 1 | `/dd-update "description"` | CR-{id}.md | Create change record, analyze impact scope |
-| 2 | Human review | - | Multiple `/dd-update CR-{id}` adjustments possible |
-| 3 | `/dd-confirm CR-{id}` | *.rc-{id}.md | Generate RC preview documents |
-| 4 | `/dd-spec-dev\|test` | specs/*.md | Optional: Generate dev/test specs |
-| 5 | `/dd-done CR-{id}` | Formal docs | Merge RC, archive CR and specs |
-
-### Dependency Change Flow
-
-```
-/dd-update   →  Analyze dependency changes, record to CR
-                ↓
-/dd-confirm  →  Check out-of-scope dependencies
-                ├─ Found → Auto-extend CR, exit awaiting review
-                └─ None → Generate RC, update bidirectional deps
-                ↓
-/dd-done     →  Merge RC, rebuild _deps.yaml
-```
-
-### Special Modes
-
-| Mode | Command | Purpose |
-|------|---------|---------|
-| Bootstrap | `/dd-update "description" --bootstrap` | Directly create feature.md, skip CR |
-| Implemented | `/dd-update "description" --implemented` | Run CR flow but skip dev spec gen |
-| State Rollback | `/dd-update CR-{id}` (confirmed) | Warn then delete RC/spec, rollback to draft |
-
-## Scope Boundaries
-
-This framework **only manages documents**:
-
-| In Scope | Out of Scope |
-|----------|--------------|
-| Requirement document management | Development progress tracking |
-| Change tracking (CR) | Code sync |
-| Spec output | Cross-product dependencies |
-| Dependency analysis | Release version management |
-
-## Design Philosophy
-
-Designed around "how to construct the most valuable context" so every token has maximum impact. Most so-called Spec-Driven Development is anti-pattern — dumping documents to LLM with lots of "rules" impairs attention and compliance. Getting the balance wrong easily leads to over-engineering traps.
-
-Real good Spec-Driven Development **must be modular and progressive**. Split requirements into modules and plans, then do Spec-Driven separately for each step.
+| Feature | This Framework | Other Tools |
+|---------|---------------|-------------|
+| RC Preview Mechanism | ✅ | ❌ |
+| Bidirectional Dependency Tracking | ✅ Auto | Manual or None |
+| Context Loading Tiers | ✅ | ❌ |
+| Multi-Product Management | ✅ | Single Project |
+| CR Lifecycle | ✅ Full Tracking | None or Partial |
 
 ---
 
 <div align="center">
 
-**If this project helps you, please give it a ⭐ Star!**
+**If this project helps you, please give it a Star!**
 
 </div>

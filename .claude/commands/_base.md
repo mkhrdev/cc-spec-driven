@@ -187,7 +187,7 @@ products/{product}/
 ## Common Behaviors
 
 ### Terminology Check
-When undefined terms are found, **console output only**, not recorded to CR:
+When undefined terms are found, **displayed in console only**, not recorded to CR:
 ```
 ⚠️ Undefined term found: "xxx"
 Suggestion: Consider updating glossary.yaml
@@ -233,7 +233,7 @@ Suggestion: {fix suggestion}
 
 ### Dependency Scope Extension (confirm only)
 
-When `/dd-confirm` finds dependency changes involving documents outside CR scope, auto-extend CR and exit:
+When `/dd-confirm` finds dependency changes involving documents outside CR scope, automatically extend CR scope and exit:
 
 ```
 ⚠️ Out-of-scope dependency found, CR-{id} updated:

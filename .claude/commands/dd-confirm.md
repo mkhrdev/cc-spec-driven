@@ -10,7 +10,7 @@
 
 ## Prerequisites
 
-Status must be `draft`, otherwise reject and show current status.
+Status must be `draft`, otherwise reject with current status message.
 
 ---
 

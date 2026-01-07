@@ -20,8 +20,8 @@
 2. **Load context**: Follow Context Loading in `_base.md` (including `_deps.yaml`)
 3. **Analyze impact scope**: Identify involved features, determine if new features needed
 4. **Analyze dependency changes**: Read `_deps.yaml`, derive bidirectional relationships, output impact analysis
-5. **Terminology check**: Console reminder only
-6. **Multi-round clarification**: Ask when requirements unclear, record to CR
+5. **Terminology check**: Displays in console only
+6. **Multi-round clarification**: Prompt for clarification when requirements are unclear, record to CR
 7. **Create CR**: Format in `_base.md`
 8. **Create tech.md**: If new feature involved
 
@@ -32,7 +32,7 @@
 | Status | Handling |
 |--------|----------|
 | draft | Append directly |
-| confirmed | Warn then rollback (delete RC/spec, status→draft) |
+| confirmed | Prompt warning, then rollback (delete RC/spec, status→draft) |
 | done/dropped | Reject |
 
 **Confirmed rollback**:
@@ -54,7 +54,7 @@ Directly create/update feature.md, skip CR/spec generation.
 3. Directly create/update `features/{feature}.md`
 4. Update dependency relationships in document
 5. Update `_deps.yaml`
-6. Terminology check (console reminder only)
+6. Terminology check (displays in console only)
 
 After bootstrap, suggest running `/dd-check`.
 

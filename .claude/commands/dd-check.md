@@ -57,6 +57,6 @@ Check completed: {x} critical | {y} warning | {z} info
 
 ## Design Principles
 
-- **Remind only, non-blocking**: Check results for reference only
+- **Advisory only, non-blocking**: Check results for reference only
 - **Console output**: No report file generation
-- **Human decision**: Whether to fix is decided by humans
+- **User discretion**: Whether to fix is decided by the user

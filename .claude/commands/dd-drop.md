@@ -15,7 +15,7 @@
 |--------|----------|
 | draft | Drop directly |
 | confirmed | Delete RC and spec, then drop |
-| done | Cannot drop (already archived, use `git revert`) |
+| done | Cannot drop archived CR (use `git revert` if needed) |
 
 ## Execution Steps
 
