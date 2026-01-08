@@ -161,15 +161,18 @@ spec/
 | blessed | Verified reusable test cases |
 <!-- /GUIDE:concepts -->
 
-<!-- GUIDE:workflow:18 -->
+<!-- GUIDE:workflow:21 -->
 ### State Transitions
 
 ```
-draft → confirmed → done (archived)
-  │         │
-  └────┬────┘
-       ↓
-    dropped
+  feature ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌▶ /done
+     │◀───────────────────────────┬─────────────┐                               ▲
+     ▼                            │             │                               │
+  /update ◀────▶ /confirm ────▶ /spec ────▶ /test-case ────▶ [dev] ────▶ /test-run(todo)
+     │              │          (dev/test)
+     └──────┬───────┘             ▲             ▲
+            ▼                     ╎             ╎
+         /drop ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┴╌╌╌╌╌╌╌╌╌╌╌╌╌┘
 ```
 
 - `draft`: Initial state, editable
