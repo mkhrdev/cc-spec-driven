@@ -1,3 +1,12 @@
+---
+description: Generate development spec (requires confirmed status)
+allowed-tools: [Read, Write, Glob, Grep, WebFetch]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001)
+    required: true
+---
+
 # /dd-spec-dev - Generate Development Spec
 
 > Common definitions in `_base.md`

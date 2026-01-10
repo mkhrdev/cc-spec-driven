@@ -1,3 +1,12 @@
+---
+description: View product documentation status and recommended actions
+allowed-tools: [Read, Glob, Grep]
+arguments:
+  - name: product-name
+    description: Product name (optional, lists all products if not specified)
+    required: false
+---
+
 # /dd-status - View Status
 
 > Common definitions in `_base.md`

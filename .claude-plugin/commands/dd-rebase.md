@@ -1,3 +1,12 @@
+---
+description: Handle branch merge conflicts and reapply change intent
+allowed-tools: [Read, Write, Edit, Glob, Grep]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001)
+    required: true
+---
+
 # /dd-rebase - Handle Branch Merge Conflicts
 
 > Common definitions in `_base.md`

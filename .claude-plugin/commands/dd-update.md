@@ -1,3 +1,15 @@
+---
+description: Create or modify change records
+allowed-tools: [Read, Write, Edit, Glob, Grep]
+arguments:
+  - name: target
+    description: Change description (create new CR) or CR-id (modify existing)
+    required: true
+  - name: extra
+    description: Additional description or flags (--implemented, --bootstrap)
+    required: false
+---
+
 # /dd-update - Update Documents
 
 > Common definitions in `_base.md`

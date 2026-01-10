@@ -1,18 +1,32 @@
 <div align="center">
 
-# Spec-Driven Document-First Development Framework
+# cc-spec-driven
 
-**Spec-Driven · Document-First · AI-Assisted**
+**Claude Code Plugin · Spec-Driven · Document-First**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-blueviolet)](https://claude.ai/claude-code)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blueviolet)](https://docs.anthropic.com/en/docs/claude-code)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [English](https://github.com/mkhrdev/cc-spec-driven/blob/main/README.md) · [中文](https://github.com/mkhrdev/cc-spec-driven/blob/main/docs/translate/README.zh.md)
 
 </div>
 
-Manage requirement documents, track changes, output specs — enabling downstream tools to generate code based on high-quality specs and complete E2E testing.
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin for managing requirement documents, tracking changes, and outputting specs — enabling downstream tools to generate code based on high-quality specs and complete E2E testing.
+
+---
+
+## Installation
+
+```bash
+# Install
+claude plugins:install mkhrdev/cc-spec-driven
+
+# Update
+claude plugins:update cc-spec-driven
+```
+
+After installation, type `/dd-` in Claude Code to see all available commands.
 
 ---
 

@@ -2,6 +2,8 @@
 
 # CLAUDE.md - Spec-Driven Document-First Development Framework
 
+> **Claude Code Plugin**: `cc-spec-driven` | All `/dd-*` commands are defined in `.claude-plugin/commands/`
+
 ## Overview
 
 A spec-driven, document-first documentation management framework for managing multi-product requirement documents.

@@ -1,3 +1,15 @@
+---
+description: Generate Maestro test cases from test spec
+allowed-tools: [Read, Write, Glob, Grep]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001)
+    required: true
+  - name: options
+    description: --platform=ios|android|web|all --dry-run --force
+    required: false
+---
+
 # /dd-test-case - Generate Test Cases
 
 > Common definitions in `_base.md`

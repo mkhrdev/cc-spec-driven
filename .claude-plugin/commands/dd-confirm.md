@@ -1,3 +1,15 @@
+---
+description: Confirm changes and generate RC preview documents
+allowed-tools: [Read, Write, Edit, Glob, Grep]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001)
+    required: true
+  - name: options
+    description: Optional parameter --dry-run
+    required: false
+---
+
 # /dd-confirm - Confirm Change
 
 > Common definitions in `_base.md`

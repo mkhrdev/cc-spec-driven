@@ -1,3 +1,12 @@
+---
+description: Initialize documentation structure for a new product
+allowed-tools: [Read, Write, Glob]
+arguments:
+  - name: product-name
+    description: Product name
+    required: true
+---
+
 # /dd-init - Initialize Product
 
 > Common definitions in `_base.md`

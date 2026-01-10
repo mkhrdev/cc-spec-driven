@@ -1,3 +1,12 @@
+---
+description: Generate test spec (requires confirmed status)
+allowed-tools: [Read, Write, Glob, Grep]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001), or --init for initialization
+    required: true
+---
+
 # /dd-spec-test - Generate Test Spec
 
 > Common definitions in `_base.md`

@@ -1,3 +1,15 @@
+---
+description: Mark changes as done, merge RC to official documents
+allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001)
+    required: true
+  - name: options
+    description: Optional parameter --dry-run
+    required: false
+---
+
 # /dd-done - Mark Change Complete
 
 > Common definitions in `_base.md`

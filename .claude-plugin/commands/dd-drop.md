@@ -1,3 +1,15 @@
+---
+description: Drop changes and archive to dropped directory
+allowed-tools: [Read, Write, Edit, Glob, Bash]
+arguments:
+  - name: cr-id
+    description: Change ID (e.g. CR-001)
+    required: true
+  - name: reason
+    description: Drop reason (optional)
+    required: false
+---
+
 # /dd-drop - Abandon Change
 
 > Common definitions in `_base.md`

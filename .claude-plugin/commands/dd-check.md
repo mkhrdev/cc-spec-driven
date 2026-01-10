@@ -1,3 +1,15 @@
+---
+description: Check documentation consistency (output only, no modifications)
+allowed-tools: [Read, Glob, Grep]
+arguments:
+  - name: product
+    description: Product name (optional)
+    required: false
+  - name: options
+    description: --scope=docs|cases|all --type=<check-type>
+    required: false
+---
+
 # /dd-check - Check Document Consistency
 
 > Common definitions in `_base.md`

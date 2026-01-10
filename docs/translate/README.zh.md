@@ -1,18 +1,32 @@
 <div align="center">
 
-# Spec-Driven Document-First Development Framework
+# cc-spec-driven
 
-**规格驱动 · 文档先行 · AI辅助**
+**Claude Code Plugin · 规格驱动 · 文档先行**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-blueviolet)](https://claude.ai/claude-code)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blueviolet)](https://docs.anthropic.com/en/docs/claude-code)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [English](https://github.com/mkhrdev/cc-spec-driven/blob/main/README.md) · [中文](https://github.com/mkhrdev/cc-spec-driven/blob/main/docs/translate/README.zh.md)
 
 </div>
 
-管理需求文档、追踪变更、输出规格，让下游工具基于高质量 Spec 执行代码生成，并完成e2e测试。
+一个 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 插件，用于管理需求文档、追踪变更、输出规格，让下游工具基于高质量 Spec 执行代码生成，并完成 E2E 测试。
+
+---
+
+## 安装
+
+```bash
+# 安装
+claude plugins:install mkhrdev/cc-spec-driven
+
+# 更新
+claude plugins:update cc-spec-driven
+```
+
+安装后，在 Claude Code 中输入 `/dd-` 即可看到所有命令。
 
 ---
 
