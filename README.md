@@ -1,18 +1,22 @@
 <div align="center">
 
-# cc-spec-driven
+# Spec-Driven, Document-First Plugin
 
 **Claude Code Plugin · Spec-Driven · Document-First**
 
+[![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/mkhrdev/cc-spec-driven/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blueviolet)](https://docs.anthropic.com/en/docs/claude-code)
+[![Made with Claude](https://img.shields.io/badge/Made%20with-Claude-orange)](https://claude.ai)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/mkhrdev/cc-spec-driven/graphs/commit-activity)
+[![GitHub issues](https://img.shields.io/github/issues/mkhrdev/cc-spec-driven)](https://github.com/mkhrdev/cc-spec-driven/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [English](https://github.com/mkhrdev/cc-spec-driven/blob/main/README.md) · [中文](https://github.com/mkhrdev/cc-spec-driven/blob/main/docs/translate/README.zh.md)
 
 </div>
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin for managing requirement documents, tracking changes, and outputting specs — enabling downstream tools to generate code based on high-quality specs and complete E2E testing.
+cc-spec-driven, a [Claude Code](https://platform.claude.com/docs/en/intro) plugin for managing requirement documents, tracking changes, and outputting specs — enabling downstream tools to generate code based on high-quality specs and complete E2E testing.
 
 ---
 
@@ -118,17 +122,12 @@ After installation, type `/dd-` in Claude Code to see all available commands.
 | `/dd-spec-test` | Generate test spec |
 | `/dd-test-case` | Generate test cases (Maestro) |
 
-> Full documentation: [CLAUDE.md - Skills](CLAUDE.md#skills)
-
 ---
 
 ## Directory Structure
 
 ```
 spec/
-├── CLAUDE.md                     # AI behavior guide
-├── README.md                     # This file
-│
 └── products/
     └── {product}/
         ├── project.yaml          # Product config (includes next_cr_id)
