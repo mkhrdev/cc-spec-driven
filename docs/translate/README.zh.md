@@ -91,6 +91,8 @@ claude plugins:update cc-spec-driven
 /dd-done CR-001
 ```
 
+> **重要**：所有命令必须在项目文档管理的repo或文件夹的 **spec 根目录**（即 `products/` 文件夹所在目录）运行。如果 `products/` 不存在，`/dd-init` 会在当前目录创建它。
+
 ---
 
 ## 命令概览

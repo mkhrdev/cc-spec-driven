@@ -1,5 +1,3 @@
-@import CLAUDE.local.md
-
 # CLAUDE.md - Spec-Driven Document-First Development Framework
 
 > **Claude Code Plugin**: `cc-spec-driven` | All `/dd-*` commands are defined in `.claude-plugin/commands/`

@@ -91,6 +91,8 @@ After installation, type `/dd-` in Claude Code to see all available commands.
 /dd-done CR-001
 ```
 
+> **Important**: All commands must be run from the **spec root directory** (where `products/` folder is located) of the repo or folder managing your project documentation. If `products/` doesn't exist, `/dd-init` will create it in the current directory.
+
 ---
 
 ## Command Overview

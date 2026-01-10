@@ -4,6 +4,27 @@ This file defines shared strategies and formats for all `/dd-*` commands. Comman
 
 ---
 
+## Execution Environment Check
+
+**All commands must check the current directory before execution**:
+
+1. Check if `products/` directory exists
+2. If not found, prompt the user:
+   ```
+   products/ folder not found in current directory.
+
+   Please confirm:
+   - If this is a new project, run /dd-init <product-name> first
+   - If you have an existing spec directory, cd to spec root and retry
+
+   Initialize in current directory? (y/n)
+   ```
+3. If user selects y, run `/dd-init`; if n, exit
+
+**Exception**: `/dd-init` command doesn't require this check (it creates products/)
+
+---
+
 ## Context Loading Strategy
 
 ```
