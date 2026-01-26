@@ -1,10 +1,6 @@
 ---
-description: View product documentation status and recommended actions
+description: View current product documentation status and recommended actions
 allowed-tools: [Read, Glob, Grep]
-arguments:
-  - name: product-name
-    description: Product name (optional, lists all products if not specified)
-    required: false
 ---
 
 # /dd-status - View Status
@@ -14,14 +10,12 @@ arguments:
 ## Usage
 
 ```
-/dd-status [product-name]
+/dd-status
 ```
 
-## No arguments: List all products
+Show detailed status in current product directory.
 
-Scan `products/` directory, output product list with change statistics.
-
-## With product: Show detailed status
+## Show Detailed Status
 
 Scan and output:
 - Feature documents list (features/*.md, exclude .rc-*.md)

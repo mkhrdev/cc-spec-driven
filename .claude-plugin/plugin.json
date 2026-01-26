@@ -1,11 +1,12 @@
 {
   "name": "cc-spec-driven",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Spec-Driven Document-First Development Framework",
   "author": {
     "name": "ibarapascal",
     "url": "https://github.com/ibarapascal"
   },
   "repository": "https://github.com/mkhrdev/cc-spec-driven",
-  "commands": "./.claude-plugin/commands"
+  "commands": "./.claude-plugin/commands",
+  "hooks": "./.claude-plugin/hooks/hooks.json"
 }

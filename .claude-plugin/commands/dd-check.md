@@ -2,9 +2,6 @@
 description: Check documentation consistency (output only, no modifications)
 allowed-tools: [Read, Glob, Grep]
 arguments:
-  - name: product
-    description: Product name (optional)
-    required: false
   - name: options
     description: --scope=docs|cases|all --type=<check-type>
     required: false
@@ -19,9 +16,9 @@ All check results **output to console only**, no file generation, non-blocking.
 ## Usage
 
 ```
-/dd-check [product]
-/dd-check [product] --scope=<scope>
-/dd-check [product] --scope=<scope> --type=<check-type>
+/dd-check
+/dd-check --scope=<scope>
+/dd-check --scope=<scope> --type=<check-type>
 ```
 
 ## --scope Parameter

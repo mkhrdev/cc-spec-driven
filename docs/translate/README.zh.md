@@ -73,6 +73,34 @@ claude plugins:update cc-spec-driven
 - **runFlow 引用**: 自动复用依赖功能的测试用例
 - **版本追踪**: 带 CR-id 命名，支持多版本共存
 
+### Hook 强制执行机制
+
+传统 AI 文档工具依赖 prompt 约束，容易被遗漏或简化。本框架通过 Hook 机制实现**工程级约束**：
+
+**带来的好处**：
+
+| 问题 | 无 Hook | 有 Hook |
+|------|--------|---------|
+| 索引同步遗漏 | 经常发生 | **自动强制** |
+| `/dd-done` 后忘记重建依赖图 | 数据污染 | **强制重建** |
+| 修改 confirmed CR 忘删 RC | 多版本混乱 | **强制删除** |
+| 测试用例创建后忘写报告 | 无法追踪 | **强制生成** |
+| 放弃 CR 后引用残留 | 孤立引用 | **强制清理** |
+
+**工作原理**：
+
+```
+会话开始 → SessionStart Hook 检测 → 验证 project.yaml 存在
+文件写入 → PostToolUse Hook 检测 → 验证路径 + 强制触发后续动作
+操作结束 → Stop Hook 验证 → 未完成则阻止停止
+```
+
+**设计哲学**（来自 spec-hook 共识）：
+
+> **Skill 用来说明"应该怎么做"，Hook 用来保证"只能这样做"。**
+
+只要状态推进依赖文件写入，流程就被工程化地锁死。
+
 ---
 
 ## 快速开始
@@ -91,7 +119,7 @@ claude plugins:update cc-spec-driven
 /dd-done CR-001
 ```
 
-> **重要**：所有命令必须在项目文档管理的repo或文件夹的 **spec 根目录**（即 `products/` 文件夹所在目录）运行。如果 `products/` 不存在，`/dd-init` 会在当前目录创建它。
+> **重要**：所有命令必须在**产品目录**（即 `project.yaml` 所在目录）内运行。使用 `/dd-init` 在当前目录初始化产品结构。
 
 ---
 
@@ -125,39 +153,34 @@ claude plugins:update cc-spec-driven
 ## 目录结构
 
 ```
-spec/
-├── CLAUDE.md                     # AI行为指南
-├── README.md                     # 本文件
-│
-└── products/
-    └── {product}/
-        ├── project.yaml          # 产品配置 (含 next_cr_id)
-        ├── glossary.yaml         # 术语表 (人类维护)
-        ├── overview.md           # 产品全景
-        ├── features/             # 功能文档
-        │   ├── _deps.yaml        # 依赖图索引 (自动维护)
-        │   ├── {feature}.md      # 业务需求 (正式)
-        │   ├── {feature}.rc-{id}.md    # 业务需求 (CR预览版)
-        │   ├── {feature}.tech.md       # 技术共识 (正式)
-        │   └── {feature}.tech.rc-{id}.md # 技术共识 (CR预览版)
-        ├── changes/              # 变更记录
-        │   ├── _index.yaml       # 变更索引
-        │   ├── CR-{id}.md        # 进行中的变更
-        │   ├── archive/          # 已完成的变更
-        │   └── dropped/          # 已放弃的变更
-        ├── specs/                # 规格文件
-        │   ├── _index.yaml       # 规格索引
-        │   ├── CR-{id}.dev.md    # 开发规格
-        │   ├── CR-{id}.test.md   # 测试规格
-        │   ├── archive/          # 已完成的规格
-        │   └── dropped/          # 已放弃的规格
-        └── cases/                # 测试用例
-            ├── _index.yaml       # 用例索引
-            ├── config.yaml       # Maestro 配置
-            ├── CR-{id}/          # 进行中的用例
-            ├── blessed/          # 可复用用例
-            ├── archive/          # 已完成的用例
-            └── dropped/          # 已放弃的用例
+{product}/                        # 产品目录 = 运行目录
+├── project.yaml                  # 产品配置 (含 next_cr_id)
+├── glossary.yaml                 # 术语表 (人类维护)
+├── overview.md                   # 产品全景
+├── features/                     # 功能文档
+│   ├── _deps.yaml                # 依赖图索引 (自动维护)
+│   ├── {feature}.md              # 业务需求 (正式)
+│   ├── {feature}.rc-{id}.md      # 业务需求 (CR预览版)
+│   ├── {feature}.tech.md         # 技术共识 (正式)
+│   └── {feature}.tech.rc-{id}.md # 技术共识 (CR预览版)
+├── changes/                      # 变更记录
+│   ├── _index.yaml               # 变更索引
+│   ├── CR-{id}.md                # 进行中的变更
+│   ├── archive/                  # 已完成的变更
+│   └── dropped/                  # 已放弃的变更
+├── specs/                        # 规格文件
+│   ├── _index.yaml               # 规格索引
+│   ├── CR-{id}.dev.md            # 开发规格
+│   ├── CR-{id}.test.md           # 测试规格
+│   ├── archive/                  # 已完成的规格
+│   └── dropped/                  # 已放弃的规格
+└── cases/                        # 测试用例
+    ├── _index.yaml               # 用例索引
+    ├── config.yaml               # Maestro 配置
+    ├── CR-{id}/                  # 进行中的用例
+    ├── blessed/                  # 可复用用例
+    ├── archive/                  # 已完成的用例
+    └── dropped/                  # 已放弃的用例
 ```
 
 ---
@@ -200,7 +223,7 @@ spec/
 <!-- GUIDE:dd-init:30 -->
 ### /dd-init
 
-初始化产品目录结构。
+在当前目录初始化产品结构。
 
 **用法**：
 ```
@@ -211,8 +234,8 @@ spec/
 
 | 场景 | 输入 | 行为 |
 |------|------|------|
-| 正常初始化 | `/dd-init my-app` | 创建完整目录结构和初始文件 |
-| 产品已存在 | `/dd-init my-app` | 拒绝，提示产品已存在 |
+| 正常初始化 | `/dd-init my-app` | 在当前目录创建完整结构和初始文件 |
+| 已初始化 | `/dd-init my-app` | 拒绝，提示当前目录已初始化 |
 | 无效名称 | `/dd-init "my app"` | 拒绝，提示名称格式要求 |
 
 **生成文件**：
@@ -229,21 +252,19 @@ spec/
 <!-- GUIDE:dd-status:40 -->
 ### /dd-status
 
-查看产品状态和推荐操作。
+查看当前产品状态和推荐操作。
 
 **用法**：
 ```
-/dd-status              # 列出所有产品
-/dd-status <product>    # 指定产品详情
+/dd-status
 ```
 
 **场景**：
 
 | 场景 | 输出 |
 |------|------|
-| 无产品 | 提示无产品，建议 `/dd-init` |
-| 多产品 | 产品列表 + 各自变更统计 |
-| 单产品 | 功能列表、RC 列表、变更状态、推荐操作 |
+| 未初始化 | 提示未找到 project.yaml，建议 `/dd-init` |
+| 已初始化 | 功能列表、RC 列表、变更状态、推荐操作 |
 | 发现 stale RC | 标记 ⚠️ stale，建议 `/dd-rebase` |
 
 **推荐下一步**：
@@ -458,9 +479,9 @@ CR 已更新，请 review 后重新执行:
 
 **用法**：
 ```
-/dd-check [product]
-/dd-check [product] --scope=<docs|cases|all>
-/dd-check [product] --type=<check-type>
+/dd-check
+/dd-check --scope=<docs|cases|all>
+/dd-check --type=<check-type>
 ```
 
 **--scope**：
@@ -823,7 +844,7 @@ A: 可以手动修改，建议通过 `/dd-update` 触发重新生成
 | RC 预览机制 | ✅ | ❌ |
 | 双向依赖追踪 | ✅ 自动 | 手动或无 |
 | Context Loading 分层 | ✅ | ❌ |
-| 多产品管理 | ✅ | 单项目 |
+| Hook 强制执行 | ✅ | ❌ |
 | CR 生命周期 | ✅ 完整追踪 | 无或部分 |
 
 ---

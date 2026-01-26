@@ -4,7 +4,7 @@
 
 **Claude Code Plugin · Spec-Driven · Document-First**
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/mkhrdev/cc-spec-driven/releases)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue)](https://github.com/mkhrdev/cc-spec-driven/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-blueviolet)](https://docs.anthropic.com/en/docs/claude-code)
 [![Made with Claude](https://img.shields.io/badge/Made%20with-Claude-orange)](https://claude.ai)
@@ -77,6 +77,34 @@ After installation, type `/dd-` in Claude Code to see all available commands.
 - **runFlow reference**: Auto-reuse test cases from dependency features
 - **Version tracking**: CR-id naming, supports multiple versions coexistence
 
+### Hook Enforcement Mechanism
+
+Traditional AI documentation tools rely on prompt constraints, which are easily overlooked or simplified. This framework implements **engineering-level constraints** through Hook mechanism:
+
+**Benefits**:
+
+| Problem | Without Hook | With Hook |
+|---------|-------------|-----------|
+| Index sync forgotten | Happens often | **Auto-enforced** |
+| Forgot to rebuild deps after `/dd-done` | Data corruption | **Forced rebuild** |
+| Forgot to delete RC when modifying confirmed CR | Multi-version chaos | **Forced deletion** |
+| Forgot to write report after creating test cases | Can't track | **Forced generation** |
+| Reference residue after dropping CR | Orphan references | **Forced cleanup** |
+
+**How it works**:
+
+```
+Session start → SessionStart Hook detects → Verify project.yaml exists
+File write → PostToolUse Hook detects → Verify path + Force trigger subsequent action
+Operation ends → Stop Hook validates → Block if incomplete
+```
+
+**Design philosophy** (from spec-hook consensus):
+
+> **Skill describes "how to do it", Hook ensures "can only do it this way".**
+
+As long as state progression depends on file writes, the workflow is engineered to be locked down.
+
 ---
 
 ## Quick Start
@@ -95,7 +123,7 @@ After installation, type `/dd-` in Claude Code to see all available commands.
 /dd-done CR-001
 ```
 
-> **Important**: All commands must be run from the **spec root directory** (where `products/` folder is located) of the repo or folder managing your project documentation. If `products/` doesn't exist, `/dd-init` will create it in the current directory.
+> **Important**: All commands must be run from the **product directory** (where `project.yaml` is located). Use `/dd-init` to initialize the product structure in the current directory.
 
 ---
 
@@ -127,36 +155,34 @@ After installation, type `/dd-` in Claude Code to see all available commands.
 ## Directory Structure
 
 ```
-spec/
-└── products/
-    └── {product}/
-        ├── project.yaml          # Product config (includes next_cr_id)
-        ├── glossary.yaml         # Glossary (human-maintained)
-        ├── overview.md           # Product overview
-        ├── features/             # Feature documents
-        │   ├── _deps.yaml        # Dependency graph index (auto-maintained)
-        │   ├── {feature}.md      # Business requirements (formal)
-        │   ├── {feature}.rc-{id}.md    # Business requirements (CR preview)
-        │   ├── {feature}.tech.md       # Technical consensus (formal)
-        │   └── {feature}.tech.rc-{id}.md # Technical consensus (CR preview)
-        ├── changes/              # Change records
-        │   ├── _index.yaml       # Change index
-        │   ├── CR-{id}.md        # In-progress changes
-        │   ├── archive/          # Completed changes
-        │   └── dropped/          # Dropped changes
-        ├── specs/                # Spec files
-        │   ├── _index.yaml       # Spec index
-        │   ├── CR-{id}.dev.md    # Development spec
-        │   ├── CR-{id}.test.md   # Test spec
-        │   ├── archive/          # Completed specs
-        │   └── dropped/          # Dropped specs
-        └── cases/                # Test cases
-            ├── _index.yaml       # Cases index
-            ├── config.yaml       # Maestro config
-            ├── CR-{id}/          # In-progress cases
-            ├── blessed/          # Reusable cases
-            ├── archive/          # Completed cases
-            └── dropped/          # Dropped cases
+{product}/                        # Product directory = working directory
+├── project.yaml                  # Product config (includes next_cr_id)
+├── glossary.yaml                 # Glossary (human-maintained)
+├── overview.md                   # Product overview
+├── features/                     # Feature documents
+│   ├── _deps.yaml                # Dependency graph index (auto-maintained)
+│   ├── {feature}.md              # Business requirements (formal)
+│   ├── {feature}.rc-{id}.md      # Business requirements (CR preview)
+│   ├── {feature}.tech.md         # Technical consensus (formal)
+│   └── {feature}.tech.rc-{id}.md # Technical consensus (CR preview)
+├── changes/                      # Change records
+│   ├── _index.yaml               # Change index
+│   ├── CR-{id}.md                # In-progress changes
+│   ├── archive/                  # Completed changes
+│   └── dropped/                  # Dropped changes
+├── specs/                        # Spec files
+│   ├── _index.yaml               # Spec index
+│   ├── CR-{id}.dev.md            # Development spec
+│   ├── CR-{id}.test.md           # Test spec
+│   ├── archive/                  # Completed specs
+│   └── dropped/                  # Dropped specs
+└── cases/                        # Test cases
+    ├── _index.yaml               # Cases index
+    ├── config.yaml               # Maestro config
+    ├── CR-{id}/                  # In-progress cases
+    ├── blessed/                  # Reusable cases
+    ├── archive/                  # Completed cases
+    └── dropped/                  # Dropped cases
 ```
 
 ---
@@ -199,7 +225,7 @@ spec/
 <!-- GUIDE:dd-init:30 -->
 ### /dd-init
 
-Initialize product directory structure.
+Initialize product structure in current directory.
 
 **Usage**:
 ```
@@ -210,8 +236,8 @@ Initialize product directory structure.
 
 | Scenario | Input | Behavior |
 |----------|-------|----------|
-| Normal init | `/dd-init my-app` | Create complete directory structure and initial files |
-| Product exists | `/dd-init my-app` | Reject, prompt product already exists |
+| Normal init | `/dd-init my-app` | Create complete structure and initial files in current directory |
+| Already initialized | `/dd-init my-app` | Reject, prompt current directory already initialized |
 | Invalid name | `/dd-init "my app"` | Reject, prompt name format requirements |
 
 **Generated files**:
@@ -228,21 +254,19 @@ Initialize product directory structure.
 <!-- GUIDE:dd-status:40 -->
 ### /dd-status
 
-View product status and recommended actions.
+View current product status and recommended actions.
 
 **Usage**:
 ```
-/dd-status              # List all products
-/dd-status <product>    # Specific product details
+/dd-status
 ```
 
 **Scenarios**:
 
 | Scenario | Output |
 |----------|--------|
-| No products | Prompt no products, suggest `/dd-init` |
-| Multiple products | Product list + change statistics |
-| Single product | Feature list, RC list, change status, recommendations |
+| Not initialized | Prompt project.yaml not found, suggest `/dd-init` |
+| Initialized | Feature list, RC list, change status, recommendations |
 | Found stale RC | Mark ⚠️ stale, suggest `/dd-rebase` |
 
 **Recommended next steps**:
@@ -457,9 +481,9 @@ Check document consistency (console output only, non-blocking).
 
 **Usage**:
 ```
-/dd-check [product]
-/dd-check [product] --scope=<docs|cases|all>
-/dd-check [product] --type=<check-type>
+/dd-check
+/dd-check --scope=<docs|cases|all>
+/dd-check --type=<check-type>
 ```
 
 **--scope**:
@@ -822,7 +846,7 @@ This framework is **upstream** of AI development toolchains, not a replacement:
 | RC Preview Mechanism | ✅ | ❌ |
 | Bidirectional Dependency Tracking | ✅ Auto | Manual or None |
 | Context Loading Tiers | ✅ | ❌ |
-| Multi-Product Management | ✅ | Single Project |
+| Hook Enforcement | ✅ | ❌ |
 | CR Lifecycle | ✅ Full Tracking | None or Partial |
 
 ---

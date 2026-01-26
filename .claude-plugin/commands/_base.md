@@ -8,20 +8,18 @@ This file defines shared strategies and formats for all `/dd-*` commands. Comman
 
 **All commands must check the current directory before execution**:
 
-1. Check if `products/` directory exists
+1. Check if `project.yaml` file exists
 2. If not found, prompt the user:
    ```
-   products/ folder not found in current directory.
+   project.yaml not found in current directory.
 
    Please confirm:
-   - If this is a new project, run /dd-init <product-name> first
-   - If you have an existing spec directory, cd to spec root and retry
-
-   Initialize in current directory? (y/n)
+   - If this is a new project, run /dd-init first
+   - If you have an existing product directory, cd to that directory and retry
    ```
-3. If user selects y, run `/dd-init`; if n, exit
+3. Exit the current command
 
-**Exception**: `/dd-init` command doesn't require this check (it creates products/)
+**Exception**: `/dd-init` command doesn't require this check (it initializes the product directory)
 
 ---
 
@@ -218,12 +216,12 @@ graph:
 ## Directory Structure
 
 ```
-products/{product}/
+{product}/                        # Product directory = working directory
 ├── project.yaml
 ├── glossary.yaml
 ├── overview.md
 ├── features/
-│   ├── _deps.yaml           # Dependency graph index (auto-maintained)
+│   ├── _deps.yaml                # Dependency graph index (auto-maintained)
 │   ├── {feature}.md
 │   ├── {feature}.rc-{id}.md
 │   ├── {feature}.tech.md
